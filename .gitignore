@@ -1,0 +1,22 @@
+# --- DATA FILES ---
+# Ignore the data folder where you'll store CSVs
+data/
+# Ignore any loose CSV files in the root
+*.csv
+*.zip
+*.rar
+
+# --- PYTHON BAGGAGE ---
+# Ignore the virtual environment
+venv/
+env/
+.env
+
+# Ignore Python bytecode (speeds up execution but clutters Git)
+__pycache__/
+*.py[cod]
+
+# --- IDE & SYSTEM ---
+# Ignore VS Code settings and Mac system files
+.vscode/
+.DS_Store
