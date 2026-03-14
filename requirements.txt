@@ -4,3 +4,5 @@ matplotlib
 seaborn
 scikit-learn
 mlxtend
+psycopg2-binary
+sqlalchemy
