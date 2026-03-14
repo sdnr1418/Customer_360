@@ -1,6 +1,6 @@
 # Customer 360: Unlocking the Full Picture
 
-**Course:** Data Mining (CS-XXXX)  
+**Course:** Data Mining (DS-3005)  
 **Instructor:** Mr. Tahir Ejaz  
 **Team Members:** Saad Nasir, Ibrahim Moeed, Abdullah Azmat
 
