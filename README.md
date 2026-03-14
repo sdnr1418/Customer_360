@@ -28,4 +28,4 @@ The project follows a structured 5-phase pipeline:
 ## 🚀 Getting Started
 1. **Clone the repo:**
    ```bash
-   git clone [https://github.com/yourusername/Customer_360.git](https://github.com/yourusername/Customer_360.git)
+   git clone [https://github.com/sdnr1418/Customer_360.git](https://github.com/sdnr1418/Customer_360.git)
