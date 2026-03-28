@@ -7,3 +7,4 @@ mlxtend
 python-dotenv
 SQLAlchemy
 psycopg2-binary
+networkx
