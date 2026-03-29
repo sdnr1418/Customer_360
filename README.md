@@ -101,5 +101,3 @@ python RUN_PROJECT_COMPLETE.py
 - scikit-learn, mlxtend (algorithms)
 - Apriori & FP-Growth algorithms
 - matplotlib, seaborn (visualization)
-
-**For questions or navigation help, see [PRESENTATION_INDEX.md](PRESENTATION_INDEX.md)**
