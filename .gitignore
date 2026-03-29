@@ -6,6 +6,10 @@ data/
 *.zip
 *.rar
 
+# --- RESTRICTED FOLDERS ---
+# Do not push sensitive or temporary files
+DO_NOT_PUSH/
+
 # --- PYTHON BAGGAGE ---
 # Ignore the virtual environment
 venv/

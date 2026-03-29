@@ -1,6 +1,6 @@
 # Phase 2: Association Rule Mining - Strategic Insights & SKU Affinities
 
-**Generated:** March 29, 2026 at 04:00:30
+**Generated:** March 29, 2026 at 17:15:46
 
 **Study Period:** Olist Marketplace (100,196 transactions, 96,478 unique orders)
 
@@ -31,18 +31,18 @@
 - **Anchor Index 0.0** = Pure add-on categories (always secondary)
 
 ### Top 5 ANCHOR Categories (Purchase Initiators)
-1. **kitchen_dining_laundry_garden_furniture** - Anchor Index: 1.00
-2. **costruction_tools_garden** - Anchor Index: 1.00
-3. **pet_shop** - Anchor Index: 1.00
-4. **luggage_accessories** - Anchor Index: 1.00
-5. **art** - Anchor Index: 1.00
+1. **food** - Anchor Index: 1.00
+2. **home_construction** - Anchor Index: 1.00
+3. **food_drink** - Anchor Index: 1.00
+4. **kitchen_dining_laundry_garden_furniture** - Anchor Index: 1.00
+5. **furniture_living_room** - Anchor Index: 1.00
 
 ### Top 5 ADD-ON Categories (Complementary)
-1. **housewares** - Anchor Index: 0.00
-2. **others** - Anchor Index: 0.00
-3. **baby** - Anchor Index: 0.00
-4. **health_beauty** - Anchor Index: 0.00
-5. **sports_leisure** - Anchor Index: 0.00
+1. **market_place** - Anchor Index: 0.00
+2. **cool_stuff** - Anchor Index: 0.00
+3. **housewares** - Anchor Index: 0.00
+4. **stationery** - Anchor Index: 0.00
+5. **watches_gifts** - Anchor Index: 0.00
 
 **Business Implication:** Feature anchor categories prominently; position add-ons for upsell
 

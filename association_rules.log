@@ -1,0 +1,512 @@
+2026-03-29 17:10:33,232 - INFO - 
+======================================================================
+2026-03-29 17:10:33,232 - INFO - PHASE 2: ASSOCIATION RULE MINING - FULL PIPELINE
+2026-03-29 17:10:33,233 - INFO - Started: 2026-03-29 17:10:33
+2026-03-29 17:10:33,233 - INFO - ======================================================================
+
+2026-03-29 17:10:33,233 - INFO - ======================================================================
+2026-03-29 17:10:33,233 - INFO - STEP 1-2: LOADING BASKET DATA
+2026-03-29 17:10:33,233 - INFO - ======================================================================
+2026-03-29 17:10:33,427 - INFO - Loaded 100196 rows from C:\Users\sdnr1\OneDrive\Desktop\DM_project\data\master_cleaned.csv
+2026-03-29 17:10:34,650 - INFO - 
+--- BASKET VALIDATION ---
+2026-03-29 17:10:34,650 - INFO - Total transactions: 96478
+2026-03-29 17:10:34,658 - INFO - Avg categories per transaction: 1.01
+2026-03-29 17:10:34,664 - INFO - Min categories per transaction: 1
+2026-03-29 17:10:34,669 - INFO - Max categories per transaction: 3
+2026-03-29 17:10:34,674 - INFO - Empty baskets: 0
+2026-03-29 17:10:34,681 - INFO - Unique categories: 72
+2026-03-29 17:10:34,681 - INFO - Categories: ['agro_industry_and_commerce', 'air_conditioning', 'art', 'arts_and_craftmanship', 'audio', 'auto', 'baby', 'bed_bath_table', 'books_general_interest', 'books_imported', 'books_technical', 'cds_dvds_musicals', 'christmas_supplies', 'cine_photo', 'computers', 'computers_accessories', 'consoles_games', 'construction_tools_construction', 'construction_tools_lights', 'construction_tools_safety', 'cool_stuff', 'costruction_tools_garden', 'costruction_tools_tools', 'diapers_and_hygiene', 'drinks', 'dvds_blu_ray', 'electronics', 'fashio_female_clothing', 'fashion_bags_accessories', 'fashion_childrens_clothes', 'fashion_male_clothing', 'fashion_shoes', 'fashion_sport', 'fashion_underwear_beach', 'fixed_telephony', 'flowers', 'food', 'food_drink', 'furniture_bedroom', 'furniture_decor', 'furniture_living_room', 'furniture_mattress_and_upholstery', 'garden_tools', 'health_beauty', 'home_appliances', 'home_appliances_2', 'home_comfort_2', 'home_confort', 'home_construction', 'housewares', 'industry_commerce_and_business', 'kitchen_dining_laundry_garden_furniture', 'la_cuisine', 'luggage_accessories', 'market_place', 'music', 'musical_instruments', 'office_furniture', 'others', 'party_supplies', 'perfumery', 'pet_shop', 'security_and_services', 'signaling_and_security', 'small_appliances', 'small_appliances_home_oven_and_coffee', 'sports_leisure', 'stationery', 'tablets_printing_image', 'telephony', 'toys', 'watches_gifts']
+2026-03-29 17:10:34,692 - INFO - Single-category transactions: 95698 (99.2%)
+2026-03-29 17:10:34,693 - INFO - Multi-category transactions: 780 (0.8%)
+2026-03-29 17:10:34,725 - INFO - 
+Transaction matrix shape: (96478, 72)
+2026-03-29 17:10:34,745 - INFO - Sparsity: 98.6%
+2026-03-29 17:10:34,746 - INFO - [OK] Data preparation successful
+
+2026-03-29 17:10:34,746 - INFO - ======================================================================
+2026-03-29 17:10:34,746 - INFO - CREATING MULTI-CATEGORY TRANSACTION SUBSET
+2026-03-29 17:10:34,747 - INFO - ======================================================================
+2026-03-29 17:10:34,754 - INFO - 
+Multi-category transactions: 780
+2026-03-29 17:10:34,755 - INFO - Percentage of total: 0.81%
+2026-03-29 17:10:34,755 - INFO - Avg categories per basket: 2.02
+2026-03-29 17:10:34,756 - INFO - Matrix shape: (780, 62)
+2026-03-29 17:10:34,758 - INFO - Sparsity: 96.7%
+2026-03-29 17:10:34,758 - INFO - [OK] Multi-category matrix created
+
+2026-03-29 17:10:34,758 - INFO - ======================================================================
+2026-03-29 17:10:34,759 - INFO - STEP 3: RUNNING APRIORI ALGORITHM
+2026-03-29 17:10:34,759 - INFO - ======================================================================
+2026-03-29 17:10:34,759 - INFO - 
+Apriori - Support threshold: 0.1%
+2026-03-29 17:10:34,800 - INFO -   Frequent itemsets: 339
+2026-03-29 17:10:34,807 - INFO - ======================================================================
+2026-03-29 17:10:34,807 - INFO - STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES
+2026-03-29 17:10:34,807 - INFO - ======================================================================
+2026-03-29 17:10:34,827 - INFO - 
+--- ADDITIONAL MEASURES CALCULATED ---
+2026-03-29 17:10:34,827 - INFO - Rules enhanced: 82
+2026-03-29 17:10:34,827 - INFO - Avg Cosine: 0.1621
+2026-03-29 17:10:34,828 - INFO - Avg Kulczynski: 0.3533
+2026-03-29 17:10:34,828 - INFO - Avg All Confidence: 0.0655
+2026-03-29 17:10:34,828 - INFO - 
+--- MEASURE CORRELATIONS WITH LIFT ---
+2026-03-29 17:10:34,830 - INFO - Cosine vs Lift correlation: 0.7882
+2026-03-29 17:10:34,831 - INFO - Kulczynski vs Lift correlation: 0.5106
+2026-03-29 17:10:34,831 - INFO - All Confidence vs Lift correlation: 0.7402
+2026-03-29 17:10:34,831 - INFO - [OK] Additional measures complete
+
+2026-03-29 17:10:34,831 - INFO -   Association rules (confidence >= 30.0%): 82
+2026-03-29 17:10:34,832 - INFO -   Avg support: 0.0057
+2026-03-29 17:10:34,832 - INFO -   Avg confidence: 0.6350
+2026-03-29 17:10:34,832 - INFO -   Avg lift: 22.5654
+2026-03-29 17:10:34,833 - INFO - 
+Apriori - Support threshold: 0.2%
+2026-03-29 17:10:34,847 - INFO -   Frequent itemsets: 173
+2026-03-29 17:10:34,850 - INFO - ======================================================================
+2026-03-29 17:10:34,850 - INFO - STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES
+2026-03-29 17:10:34,850 - INFO - ======================================================================
+2026-03-29 17:10:34,862 - INFO - 
+--- ADDITIONAL MEASURES CALCULATED ---
+2026-03-29 17:10:34,862 - INFO - Rules enhanced: 25
+2026-03-29 17:10:34,862 - INFO - Avg Cosine: 0.2024
+2026-03-29 17:10:34,863 - INFO - Avg Kulczynski: 0.3157
+2026-03-29 17:10:34,863 - INFO - Avg All Confidence: 0.1021
+2026-03-29 17:10:34,863 - INFO - 
+--- MEASURE CORRELATIONS WITH LIFT ---
+2026-03-29 17:10:34,864 - INFO - Cosine vs Lift correlation: 0.3758
+2026-03-29 17:10:34,865 - INFO - Kulczynski vs Lift correlation: 0.5135
+2026-03-29 17:10:34,865 - INFO - All Confidence vs Lift correlation: 0.0649
+2026-03-29 17:10:34,865 - INFO - [OK] Additional measures complete
+
+2026-03-29 17:10:34,866 - INFO -   Association rules (confidence >= 30.0%): 25
+2026-03-29 17:10:34,866 - INFO -   Avg support: 0.0157
+2026-03-29 17:10:34,866 - INFO -   Avg confidence: 0.5293
+2026-03-29 17:10:34,867 - INFO -   Avg lift: 6.8446
+2026-03-29 17:10:34,867 - INFO - 
+Apriori - Support threshold: 0.5%
+2026-03-29 17:10:34,875 - INFO -   Frequent itemsets: 91
+2026-03-29 17:10:34,879 - INFO - ======================================================================
+2026-03-29 17:10:34,880 - INFO - STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES
+2026-03-29 17:10:34,880 - INFO - ======================================================================
+2026-03-29 17:10:34,886 - INFO - 
+--- ADDITIONAL MEASURES CALCULATED ---
+2026-03-29 17:10:34,886 - INFO - Rules enhanced: 15
+2026-03-29 17:10:34,887 - INFO - Avg Cosine: 0.2387
+2026-03-29 17:10:34,887 - INFO - Avg Kulczynski: 0.3219
+2026-03-29 17:10:34,888 - INFO - Avg All Confidence: 0.1381
+2026-03-29 17:10:34,888 - INFO - 
+--- MEASURE CORRELATIONS WITH LIFT ---
+2026-03-29 17:10:34,889 - INFO - Cosine vs Lift correlation: 0.3822
+2026-03-29 17:10:34,889 - INFO - Kulczynski vs Lift correlation: 0.5187
+2026-03-29 17:10:34,890 - INFO - All Confidence vs Lift correlation: -0.0106
+2026-03-29 17:10:34,890 - INFO - [OK] Additional measures complete
+
+2026-03-29 17:10:34,890 - INFO -   Association rules (confidence >= 30.0%): 15
+2026-03-29 17:10:34,891 - INFO -   Avg support: 0.0243
+2026-03-29 17:10:34,891 - INFO -   Avg confidence: 0.5056
+2026-03-29 17:10:34,891 - INFO -   Avg lift: 4.4495
+2026-03-29 17:10:34,892 - INFO - 
+Apriori - Support threshold: 1.0%
+2026-03-29 17:10:34,897 - INFO -   Frequent itemsets: 53
+2026-03-29 17:10:34,901 - INFO - ======================================================================
+2026-03-29 17:10:34,902 - INFO - STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES
+2026-03-29 17:10:34,902 - INFO - ======================================================================
+2026-03-29 17:10:34,907 - INFO - 
+--- ADDITIONAL MEASURES CALCULATED ---
+2026-03-29 17:10:34,907 - INFO - Rules enhanced: 8
+2026-03-29 17:10:34,908 - INFO - Avg Cosine: 0.2833
+2026-03-29 17:10:34,908 - INFO - Avg Kulczynski: 0.3398
+2026-03-29 17:10:34,908 - INFO - Avg All Confidence: 0.1903
+2026-03-29 17:10:34,908 - INFO - 
+--- MEASURE CORRELATIONS WITH LIFT ---
+2026-03-29 17:10:34,910 - INFO - Cosine vs Lift correlation: -0.0867
+2026-03-29 17:10:34,910 - INFO - Kulczynski vs Lift correlation: -0.0714
+2026-03-29 17:10:34,910 - INFO - All Confidence vs Lift correlation: -0.3630
+2026-03-29 17:10:34,910 - INFO - [OK] Additional measures complete
+
+2026-03-29 17:10:34,910 - INFO -   Association rules (confidence >= 30.0%): 8
+2026-03-29 17:10:34,911 - INFO -   Avg support: 0.0394
+2026-03-29 17:10:34,911 - INFO -   Avg confidence: 0.4891
+2026-03-29 17:10:34,911 - INFO -   Avg lift: 2.9809
+2026-03-29 17:10:34,912 - INFO - 
+Apriori - Support threshold: 2.0%
+2026-03-29 17:10:34,915 - INFO -   Frequent itemsets: 31
+2026-03-29 17:10:34,919 - INFO - ======================================================================
+2026-03-29 17:10:34,919 - INFO - STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES
+2026-03-29 17:10:34,919 - INFO - ======================================================================
+2026-03-29 17:10:34,923 - INFO - 
+--- ADDITIONAL MEASURES CALCULATED ---
+2026-03-29 17:10:34,923 - INFO - Rules enhanced: 4
+2026-03-29 17:10:34,924 - INFO - Avg Cosine: 0.3477
+2026-03-29 17:10:34,924 - INFO - Avg Kulczynski: 0.3781
+2026-03-29 17:10:34,924 - INFO - Avg All Confidence: 0.2756
+2026-03-29 17:10:34,924 - INFO - 
+--- MEASURE CORRELATIONS WITH LIFT ---
+2026-03-29 17:10:34,925 - INFO - Cosine vs Lift correlation: 0.1355
+2026-03-29 17:10:34,926 - INFO - Kulczynski vs Lift correlation: 0.4246
+2026-03-29 17:10:34,926 - INFO - All Confidence vs Lift correlation: -0.9944
+2026-03-29 17:10:34,926 - INFO - [OK] Additional measures complete
+
+2026-03-29 17:10:34,926 - INFO -   Association rules (confidence >= 30.0%): 4
+2026-03-29 17:10:34,927 - INFO -   Avg support: 0.0647
+2026-03-29 17:10:34,927 - INFO -   Avg confidence: 0.4801
+2026-03-29 17:10:34,927 - INFO -   Avg lift: 2.2665
+2026-03-29 17:10:34,928 - INFO - 
+[OK] Apriori complete
+
+2026-03-29 17:10:34,928 - INFO - ======================================================================
+2026-03-29 17:10:34,928 - INFO - STEP 4: RUNNING FP-GROWTH ALGORITHM
+2026-03-29 17:10:34,928 - INFO - ======================================================================
+2026-03-29 17:10:34,928 - INFO - 
+FP-Growth - Support threshold: 0.1%
+2026-03-29 17:10:34,938 - INFO -   Frequent itemsets: 339
+2026-03-29 17:10:34,945 - INFO - ======================================================================
+2026-03-29 17:10:34,945 - INFO - STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES
+2026-03-29 17:10:34,945 - INFO - ======================================================================
+2026-03-29 17:10:34,956 - INFO - 
+--- ADDITIONAL MEASURES CALCULATED ---
+2026-03-29 17:10:34,956 - INFO - Rules enhanced: 82
+2026-03-29 17:10:34,957 - INFO - Avg Cosine: 0.1621
+2026-03-29 17:10:34,957 - INFO - Avg Kulczynski: 0.3533
+2026-03-29 17:10:34,957 - INFO - Avg All Confidence: 0.0655
+2026-03-29 17:10:34,958 - INFO - 
+--- MEASURE CORRELATIONS WITH LIFT ---
+2026-03-29 17:10:34,959 - INFO - Cosine vs Lift correlation: 0.7882
+2026-03-29 17:10:34,959 - INFO - Kulczynski vs Lift correlation: 0.5106
+2026-03-29 17:10:34,959 - INFO - All Confidence vs Lift correlation: 0.7402
+2026-03-29 17:10:34,960 - INFO - [OK] Additional measures complete
+
+2026-03-29 17:10:34,960 - INFO -   Association rules (confidence >= 30.0%): 82
+2026-03-29 17:10:34,961 - INFO -   Avg support (among multi-item carts): 0.0057
+2026-03-29 17:10:34,961 - INFO -   Avg confidence: 0.6350
+2026-03-29 17:10:34,962 - INFO -   Avg lift: 22.5654
+2026-03-29 17:10:34,962 - INFO - 
+FP-Growth - Support threshold: 0.2%
+2026-03-29 17:10:34,970 - INFO -   Frequent itemsets: 173
+2026-03-29 17:10:34,974 - INFO - ======================================================================
+2026-03-29 17:10:34,975 - INFO - STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES
+2026-03-29 17:10:34,975 - INFO - ======================================================================
+2026-03-29 17:10:34,984 - INFO - 
+--- ADDITIONAL MEASURES CALCULATED ---
+2026-03-29 17:10:34,984 - INFO - Rules enhanced: 25
+2026-03-29 17:10:34,984 - INFO - Avg Cosine: 0.2024
+2026-03-29 17:10:34,985 - INFO - Avg Kulczynski: 0.3157
+2026-03-29 17:10:34,985 - INFO - Avg All Confidence: 0.1021
+2026-03-29 17:10:34,985 - INFO - 
+--- MEASURE CORRELATIONS WITH LIFT ---
+2026-03-29 17:10:34,986 - INFO - Cosine vs Lift correlation: 0.3758
+2026-03-29 17:10:34,987 - INFO - Kulczynski vs Lift correlation: 0.5135
+2026-03-29 17:10:34,987 - INFO - All Confidence vs Lift correlation: 0.0649
+2026-03-29 17:10:34,987 - INFO - [OK] Additional measures complete
+
+2026-03-29 17:10:34,987 - INFO -   Association rules (confidence >= 30.0%): 25
+2026-03-29 17:10:34,988 - INFO -   Avg support (among multi-item carts): 0.0157
+2026-03-29 17:10:34,988 - INFO -   Avg confidence: 0.5293
+2026-03-29 17:10:34,988 - INFO -   Avg lift: 6.8446
+2026-03-29 17:10:34,989 - INFO - 
+FP-Growth - Support threshold: 0.5%
+2026-03-29 17:10:34,995 - INFO -   Frequent itemsets: 91
+2026-03-29 17:10:35,000 - INFO - ======================================================================
+2026-03-29 17:10:35,001 - INFO - STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES
+2026-03-29 17:10:35,002 - INFO - ======================================================================
+2026-03-29 17:10:35,006 - INFO - 
+--- ADDITIONAL MEASURES CALCULATED ---
+2026-03-29 17:10:35,007 - INFO - Rules enhanced: 15
+2026-03-29 17:10:35,007 - INFO - Avg Cosine: 0.2387
+2026-03-29 17:10:35,008 - INFO - Avg Kulczynski: 0.3219
+2026-03-29 17:10:35,008 - INFO - Avg All Confidence: 0.1381
+2026-03-29 17:10:35,008 - INFO - 
+--- MEASURE CORRELATIONS WITH LIFT ---
+2026-03-29 17:10:35,010 - INFO - Cosine vs Lift correlation: 0.3822
+2026-03-29 17:10:35,010 - INFO - Kulczynski vs Lift correlation: 0.5187
+2026-03-29 17:10:35,010 - INFO - All Confidence vs Lift correlation: -0.0106
+2026-03-29 17:10:35,010 - INFO - [OK] Additional measures complete
+
+2026-03-29 17:10:35,011 - INFO -   Association rules (confidence >= 30.0%): 15
+2026-03-29 17:10:35,011 - INFO -   Avg support (among multi-item carts): 0.0243
+2026-03-29 17:10:35,012 - INFO -   Avg confidence: 0.5056
+2026-03-29 17:10:35,012 - INFO -   Avg lift: 4.4495
+2026-03-29 17:10:35,012 - INFO - 
+FP-Growth - Support threshold: 1.0%
+2026-03-29 17:10:35,017 - INFO -   Frequent itemsets: 53
+2026-03-29 17:10:35,019 - INFO - ======================================================================
+2026-03-29 17:10:35,020 - INFO - STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES
+2026-03-29 17:10:35,020 - INFO - ======================================================================
+2026-03-29 17:10:35,022 - INFO - 
+--- ADDITIONAL MEASURES CALCULATED ---
+2026-03-29 17:10:35,023 - INFO - Rules enhanced: 8
+2026-03-29 17:10:35,023 - INFO - Avg Cosine: 0.2833
+2026-03-29 17:10:35,023 - INFO - Avg Kulczynski: 0.3398
+2026-03-29 17:10:35,024 - INFO - Avg All Confidence: 0.1903
+2026-03-29 17:10:35,024 - INFO - 
+--- MEASURE CORRELATIONS WITH LIFT ---
+2026-03-29 17:10:35,025 - INFO - Cosine vs Lift correlation: -0.0867
+2026-03-29 17:10:35,025 - INFO - Kulczynski vs Lift correlation: -0.0714
+2026-03-29 17:10:35,025 - INFO - All Confidence vs Lift correlation: -0.3630
+2026-03-29 17:10:35,025 - INFO - [OK] Additional measures complete
+
+2026-03-29 17:10:35,025 - INFO -   Association rules (confidence >= 30.0%): 8
+2026-03-29 17:10:35,026 - INFO -   Avg support (among multi-item carts): 0.0394
+2026-03-29 17:10:35,026 - INFO -   Avg confidence: 0.4891
+2026-03-29 17:10:35,026 - INFO -   Avg lift: 2.9809
+2026-03-29 17:10:35,026 - INFO - 
+FP-Growth - Support threshold: 2.0%
+2026-03-29 17:10:35,030 - INFO -   Frequent itemsets: 31
+2026-03-29 17:10:35,032 - INFO - ======================================================================
+2026-03-29 17:10:35,032 - INFO - STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES
+2026-03-29 17:10:35,032 - INFO - ======================================================================
+2026-03-29 17:10:35,034 - INFO - 
+--- ADDITIONAL MEASURES CALCULATED ---
+2026-03-29 17:10:35,034 - INFO - Rules enhanced: 4
+2026-03-29 17:10:35,035 - INFO - Avg Cosine: 0.3477
+2026-03-29 17:10:35,035 - INFO - Avg Kulczynski: 0.3781
+2026-03-29 17:10:35,035 - INFO - Avg All Confidence: 0.2756
+2026-03-29 17:10:35,035 - INFO - 
+--- MEASURE CORRELATIONS WITH LIFT ---
+2026-03-29 17:10:35,036 - INFO - Cosine vs Lift correlation: 0.1355
+2026-03-29 17:10:35,036 - INFO - Kulczynski vs Lift correlation: 0.4246
+2026-03-29 17:10:35,036 - INFO - All Confidence vs Lift correlation: -0.9944
+2026-03-29 17:10:35,037 - INFO - [OK] Additional measures complete
+
+2026-03-29 17:10:35,037 - INFO -   Association rules (confidence >= 30.0%): 4
+2026-03-29 17:10:35,037 - INFO -   Avg support (among multi-item carts): 0.0647
+2026-03-29 17:10:35,038 - INFO -   Avg confidence: 0.4801
+2026-03-29 17:10:35,038 - INFO -   Avg lift: 2.2665
+2026-03-29 17:10:35,038 - INFO - 
+[OK] FP-Growth complete
+
+2026-03-29 17:10:35,038 - INFO - ======================================================================
+2026-03-29 17:10:35,038 - INFO - STEP 5: ALGORITHM COMPARISON & SELECTION
+2026-03-29 17:10:35,038 - INFO - ======================================================================
+2026-03-29 17:10:35,039 - INFO - 
+--- ALGORITHM COMPARISON ---
+2026-03-29 17:10:35,044 - INFO - support  apriori_itemsets  apriori_rules  fpgrowth_itemsets  fpgrowth_rules  apriori_avg_lift  fpgrowth_avg_lift
+   0.1%               339             82                339              82         22.565436          22.565436
+   0.2%               173             25                173              25          6.844598           6.844598
+   0.5%                91             15                 91              15          4.449514           4.449514
+   1.0%                53              8                 53               8          2.980876           2.980876
+2026-03-29 17:10:35,044 - INFO - 
+--- SELECTING OPTIMAL THRESHOLD ---
+2026-03-29 17:10:35,044 - INFO -   Support 0.1%: 82 rules (diff from target 35: 47)
+2026-03-29 17:10:35,044 - INFO -   Support 0.2%: 25 rules (diff from target 35: 10)
+2026-03-29 17:10:35,044 - INFO -   Support 0.5%: 15 rules (diff from target 35: 20)
+2026-03-29 17:10:35,045 - INFO -   Support 1.0%: 8 rules (diff from target 35: 27)
+2026-03-29 17:10:35,045 - INFO - 
+[OK] Optimal threshold selected: 0.2%
+2026-03-29 17:10:35,045 - INFO - [OK] Final ruleset: 25 rules
+2026-03-29 17:10:35,045 - INFO - [OK] Algorithm comparison complete
+
+2026-03-29 17:10:35,045 - INFO - ======================================================================
+2026-03-29 17:10:35,046 - INFO - STEP 6: BUSINESS INSIGHTS - Q1: ANCHORS vs ADD-ONS
+2026-03-29 17:10:35,046 - INFO - ======================================================================
+2026-03-29 17:10:35,049 - INFO - 
+--- ANCHOR vs ADD-ON ANALYSIS ---
+2026-03-29 17:10:35,049 - INFO - Total categories analyzed: 33
+2026-03-29 17:10:35,049 - INFO - 
+Top 5 Anchors (initiators):
+2026-03-29 17:10:35,051 - INFO -   costruction_tools_garden: Anchor Index 1.000 (appears 1 times in antecedent)
+2026-03-29 17:10:35,051 - INFO -   office_furniture: Anchor Index 1.000 (appears 1 times in antecedent)
+2026-03-29 17:10:35,052 - INFO -   furniture_living_room: Anchor Index 1.000 (appears 1 times in antecedent)
+2026-03-29 17:10:35,052 - INFO -   perfumery: Anchor Index 1.000 (appears 1 times in antecedent)
+2026-03-29 17:10:35,052 - INFO -   fashion_shoes: Anchor Index 1.000 (appears 1 times in antecedent)
+2026-03-29 17:10:35,052 - INFO - 
+Top 5 Add-ons (secondary):
+2026-03-29 17:10:35,053 - INFO -   bed_bath_table: Anchor Index 0.250 (appears 3 times in consequent)
+2026-03-29 17:10:35,053 - INFO -   furniture_decor: Anchor Index 0.143 (appears 6 times in consequent)
+2026-03-29 17:10:35,054 - INFO -   market_place: Anchor Index 0.000 (appears 1 times in consequent)
+2026-03-29 17:10:35,054 - INFO -   baby: Anchor Index 0.000 (appears 2 times in consequent)
+2026-03-29 17:10:35,054 - INFO -   health_beauty: Anchor Index 0.000 (appears 3 times in consequent)
+2026-03-29 17:10:35,054 - INFO - [OK] Anchor vs Add-on analysis complete
+
+2026-03-29 17:10:35,054 - INFO - ======================================================================
+2026-03-29 17:10:35,055 - INFO - STEP 6: BUSINESS INSIGHTS - Q2: HIDDEN AFFINITIES
+2026-03-29 17:10:35,055 - INFO - ======================================================================
+2026-03-29 17:10:35,056 - INFO - 
+--- HIDDEN AFFINITIES (Lift > 1.5) ---
+2026-03-29 17:10:35,056 - INFO - Found 22 surprising associations
+2026-03-29 17:10:35,057 - INFO - 
+Top 10 'surprise' rules:
+2026-03-29 17:10:35,057 - INFO -   1. fashion_childrens_clothes -> fashion_bags_accessories
+2026-03-29 17:10:35,058 - INFO -      Support: 0.0026, Confidence: 1.0000, Lift: 41.0526
+2026-03-29 17:10:35,058 - INFO -   2. books_general_interest -> market_place
+2026-03-29 17:10:35,058 - INFO -      Support: 0.0026, Confidence: 0.4000, Lift: 26.0000
+2026-03-29 17:10:35,058 - INFO -   3. audio -> watches_gifts
+2026-03-29 17:10:35,058 - INFO -      Support: 0.0077, Confidence: 1.0000, Lift: 19.5000
+2026-03-29 17:10:35,059 - INFO -   4. fashion_shoes -> baby
+2026-03-29 17:10:35,059 - INFO -      Support: 0.0026, Confidence: 1.0000, Lift: 8.3871
+2026-03-29 17:10:35,059 - INFO -   5. luggage_accessories -> stationery
+2026-03-29 17:10:35,059 - INFO -      Support: 0.0064, Confidence: 0.3333, Lift: 7.8788
+2026-03-29 17:10:35,060 - INFO -   6. tablets_printing_image -> cool_stuff
+2026-03-29 17:10:35,060 - INFO -      Support: 0.0026, Confidence: 0.6667, Lift: 7.7612
+2026-03-29 17:10:35,060 - INFO -   7. fashion_bags_accessories -> others
+2026-03-29 17:10:35,060 - INFO -      Support: 0.0115, Confidence: 0.4737, Lift: 6.0569
+2026-03-29 17:10:35,061 - INFO -   8. food_drink -> sports_leisure
+2026-03-29 17:10:35,061 - INFO -      Support: 0.0026, Confidence: 0.5000, Lift: 5.4167
+2026-03-29 17:10:35,061 - INFO -   9. pet_shop -> others
+2026-03-29 17:10:35,061 - INFO -      Support: 0.0077, Confidence: 0.4000, Lift: 5.1148
+2026-03-29 17:10:35,061 - INFO -   10. perfumery -> health_beauty
+2026-03-29 17:10:35,062 - INFO -      Support: 0.0141, Confidence: 0.4074, Lift: 4.4757
+2026-03-29 17:10:35,062 - INFO - [OK] Hidden affinities analysis complete
+
+2026-03-29 17:10:35,062 - INFO - ======================================================================
+2026-03-29 17:10:35,062 - INFO - STEP 6: BUSINESS INSIGHTS - Q3: BUNDLING CANDIDATES
+2026-03-29 17:10:35,062 - INFO - ======================================================================
+2026-03-29 17:10:35,064 - INFO - 
+--- TOP BUNDLING CANDIDATES (by Lift) ---
+2026-03-29 17:10:35,064 - INFO - Selected top 20 pairs
+2026-03-29 17:10:35,064 - INFO -   1. fashion_childrens_clothes + fashion_bags_accessories
+2026-03-29 17:10:35,064 - INFO -      Lift: 41.053, Confidence: 100.0%, Support: 0.3%
+2026-03-29 17:10:35,065 - INFO -   2. books_general_interest + market_place
+2026-03-29 17:10:35,065 - INFO -      Lift: 26.000, Confidence: 40.0%, Support: 0.3%
+2026-03-29 17:10:35,065 - INFO -   3. audio + watches_gifts
+2026-03-29 17:10:35,065 - INFO -      Lift: 19.500, Confidence: 100.0%, Support: 0.8%
+2026-03-29 17:10:35,066 - INFO -   4. fashion_shoes + baby
+2026-03-29 17:10:35,066 - INFO -      Lift: 8.387, Confidence: 100.0%, Support: 0.3%
+2026-03-29 17:10:35,066 - INFO -   5. luggage_accessories + stationery
+2026-03-29 17:10:35,066 - INFO -      Lift: 7.879, Confidence: 33.3%, Support: 0.6%
+2026-03-29 17:10:35,067 - INFO -   6. tablets_printing_image + cool_stuff
+2026-03-29 17:10:35,067 - INFO -      Lift: 7.761, Confidence: 66.7%, Support: 0.3%
+2026-03-29 17:10:35,067 - INFO -   7. fashion_bags_accessories + others
+2026-03-29 17:10:35,067 - INFO -      Lift: 6.057, Confidence: 47.4%, Support: 1.2%
+2026-03-29 17:10:35,068 - INFO -   8. food_drink + sports_leisure
+2026-03-29 17:10:35,068 - INFO -      Lift: 5.417, Confidence: 50.0%, Support: 0.3%
+2026-03-29 17:10:35,068 - INFO -   9. pet_shop + others
+2026-03-29 17:10:35,068 - INFO -      Lift: 5.115, Confidence: 40.0%, Support: 0.8%
+2026-03-29 17:10:35,069 - INFO -   10. perfumery + health_beauty
+2026-03-29 17:10:35,069 - INFO -      Lift: 4.476, Confidence: 40.7%, Support: 1.4%
+2026-03-29 17:10:35,069 - INFO -   11. costruction_tools_garden + others
+2026-03-29 17:10:35,069 - INFO -      Lift: 4.262, Confidence: 33.3%, Support: 0.5%
+2026-03-29 17:10:35,070 - INFO -   12. drinks + health_beauty
+2026-03-29 17:10:35,070 - INFO -      Lift: 4.120, Confidence: 37.5%, Support: 0.4%
+2026-03-29 17:10:35,070 - INFO -   13. food + health_beauty
+2026-03-29 17:10:35,070 - INFO -      Lift: 4.120, Confidence: 37.5%, Support: 0.4%
+2026-03-29 17:10:35,070 - INFO -   14. food_drink + housewares
+2026-03-29 17:10:35,071 - INFO -      Lift: 3.362, Confidence: 50.0%, Support: 0.3%
+2026-03-29 17:10:35,071 - INFO -   15. home_confort + bed_bath_table
+2026-03-29 17:10:35,071 - INFO -      Lift: 3.304, Confidence: 86.0%, Support: 5.5%
+2026-03-29 17:10:35,071 - INFO -   16. art + furniture_decor
+2026-03-29 17:10:35,072 - INFO -      Lift: 3.186, Confidence: 83.3%, Support: 0.6%
+2026-03-29 17:10:35,072 - INFO -   17. toys + baby
+2026-03-29 17:10:35,072 - INFO -      Lift: 3.125, Confidence: 37.3%, Support: 2.4%
+2026-03-29 17:10:35,072 - INFO -   18. construction_tools_lights + furniture_decor
+2026-03-29 17:10:35,072 - INFO -      Lift: 2.337, Confidence: 61.1%, Support: 1.4%
+2026-03-29 17:10:35,073 - INFO -   19. kitchen_dining_laundry_garden_furniture + housewares
+2026-03-29 17:10:35,073 - INFO -      Lift: 2.241, Confidence: 33.3%, Support: 0.3%
+2026-03-29 17:10:35,073 - INFO -   20. industry_commerce_and_business + furniture_decor
+2026-03-29 17:10:35,073 - INFO -      Lift: 1.912, Confidence: 50.0%, Support: 0.3%
+2026-03-29 17:10:35,074 - INFO - [OK] Bundling candidates extracted
+
+2026-03-29 17:10:35,074 - INFO - ======================================================================
+2026-03-29 17:10:35,074 - INFO - STEP 6: BUSINESS INSIGHTS - Q4: MARKET BASKET COMPOSITION
+2026-03-29 17:10:35,074 - INFO - ======================================================================
+2026-03-29 17:10:35,082 - INFO - 
+--- MARKET BASKET COMPOSITION ---
+2026-03-29 17:10:35,082 - INFO - Total orders: 96478
+2026-03-29 17:10:35,082 - INFO - Single-category orders: 95698 (99.2%)
+2026-03-29 17:10:35,083 - INFO - Multi-category orders: 780 (0.8%)
+2026-03-29 17:10:35,086 - INFO - Avg categories per order: 1.01
+2026-03-29 17:10:35,090 - INFO - Median categories per order: 1
+2026-03-29 17:10:35,092 - INFO - Max categories per order: 3
+2026-03-29 17:10:35,092 - INFO - 
+Store Type Assessment: Specialized Store (customers focus on specific categories)
+2026-03-29 17:10:35,092 - INFO - [OK] Market basket composition analysis complete
+
+2026-03-29 17:10:35,099 - INFO - ======================================================================
+2026-03-29 17:10:35,101 - INFO - STEP 6.5: SYNTHETIC BUNDLE RECOMMENDATIONS
+2026-03-29 17:10:35,102 - INFO - ======================================================================
+2026-03-29 17:10:35,104 - INFO - 
+--- TOP 10 CATEGORY PAIRS (BY LIFT) ---
+2026-03-29 17:10:35,104 - INFO - Note: Support is conditional on MULTI-ITEM CARTS ONLY (780 orders, 0.8% of total)
+2026-03-29 17:10:35,104 - INFO - SKU Recommendations: Top 2 best-sellers from paired categories (overall sales)
+
+2026-03-29 17:10:35,105 - INFO - Bundle 1: fashion_childrens_clothes -> fashion_bags_accessories
+2026-03-29 17:10:35,105 - INFO -   Lift: 41.053, Confidence: 100.0%, Support (multi-cart): 0.3%
+2026-03-29 17:10:35,124 - INFO -   Recommended SKUs from fashion_childrens_clothes:
+2026-03-29 17:10:35,124 - INFO -     1. 57bdf3098169cccdb622... (3 sales overall)
+2026-03-29 17:10:35,124 - INFO -     2. 8cfc3506cedc06263644... (2 sales overall)
+2026-03-29 17:10:35,125 - INFO -   Recommended SKUs from fashion_bags_accessories:
+2026-03-29 17:10:35,125 - INFO -     1. d017a2151d543a988560... (137 sales overall)
+2026-03-29 17:10:35,125 - INFO -     2. 1ec486885049bbb9b793... (40 sales overall)
+2026-03-29 17:10:35,126 - INFO - Bundle 2: books_general_interest -> market_place
+2026-03-29 17:10:35,126 - INFO -   Lift: 26.000, Confidence: 40.0%, Support (multi-cart): 0.3%
+2026-03-29 17:10:35,141 - INFO -   Recommended SKUs from books_general_interest:
+2026-03-29 17:10:35,141 - INFO -     1. f35927953ed82e19d06a... (54 sales overall)
+2026-03-29 17:10:35,141 - INFO -     2. 9d0bb30eed80184666c8... (18 sales overall)
+2026-03-29 17:10:35,142 - INFO -   Recommended SKUs from market_place:
+2026-03-29 17:10:35,142 - INFO -     1. 8d1cfc0463b545928bfb... (23 sales overall)
+2026-03-29 17:10:35,142 - INFO -     2. 9af7b4a3262141c12ba9... (14 sales overall)
+2026-03-29 17:10:35,143 - INFO - Bundle 3: audio -> watches_gifts
+2026-03-29 17:10:35,143 - INFO -   Lift: 19.500, Confidence: 100.0%, Support (multi-cart): 0.8%
+2026-03-29 17:10:35,161 - INFO -   Recommended SKUs from audio:
+2026-03-29 17:10:35,161 - INFO -     1. db5efde3ad0cc579b130... (48 sales overall)
+2026-03-29 17:10:35,162 - INFO -     2. a59fb60fddcc72a9878b... (42 sales overall)
+2026-03-29 17:10:35,162 - INFO -   Recommended SKUs from watches_gifts:
+2026-03-29 17:10:35,163 - INFO -     1. 53b36df67ebb7c41585e... (304 sales overall)
+2026-03-29 17:10:35,163 - INFO -     2. e0d64dcfaa3b6db5c54c... (193 sales overall)
+2026-03-29 17:10:35,163 - INFO - Bundle 4: fashion_shoes -> baby
+2026-03-29 17:10:35,164 - INFO -   Lift: 8.387, Confidence: 100.0%, Support (multi-cart): 0.3%
+2026-03-29 17:10:35,177 - INFO -   Recommended SKUs from fashion_shoes:
+2026-03-29 17:10:35,178 - INFO -     1. a2c75a23c2f838881dd4... (9 sales overall)
+2026-03-29 17:10:35,178 - INFO -     2. ac5e164e2eda939ffa46... (9 sales overall)
+2026-03-29 17:10:35,178 - INFO -   Recommended SKUs from baby:
+2026-03-29 17:10:35,178 - INFO -     1. cac9e5692471a0700418... (87 sales overall)
+2026-03-29 17:10:35,179 - INFO -     2. ea44caac707f7f132518... (59 sales overall)
+2026-03-29 17:10:35,179 - INFO - Bundle 5: luggage_accessories -> stationery
+2026-03-29 17:10:35,179 - INFO -   Lift: 7.879, Confidence: 33.3%, Support (multi-cart): 0.6%
+2026-03-29 17:10:35,190 - INFO -   Recommended SKUs from luggage_accessories:
+2026-03-29 17:10:35,190 - INFO -     1. f71973c922ccaab05514... (60 sales overall)
+2026-03-29 17:10:35,190 - INFO -     2. af51d485dc5255ba2e18... (54 sales overall)
+2026-03-29 17:10:35,190 - INFO -   Recommended SKUs from stationery:
+2026-03-29 17:10:35,191 - INFO -     1. fb55982be901439613a9... (82 sales overall)
+2026-03-29 17:10:35,191 - INFO -     2. 5411e9269501a870cabf... (74 sales overall)
+2026-03-29 17:10:35,191 - INFO - Bundle 6: tablets_printing_image -> cool_stuff
+2026-03-29 17:10:35,191 - INFO -   Lift: 7.761, Confidence: 66.7%, Support (multi-cart): 0.3%
+2026-03-29 17:10:35,201 - INFO -   Recommended SKUs from tablets_printing_image:
+2026-03-29 17:10:35,202 - INFO -     1. 6bbe55cf8f85c87b6eeb... (32 sales overall)
+2026-03-29 17:10:35,202 - INFO -     2. 34dabb8af33b3756cf72... (20 sales overall)
+2026-03-29 17:10:35,202 - INFO -   Recommended SKUs from cool_stuff:
+2026-03-29 17:10:35,203 - INFO -     1. c6dd917a0be2a7045820... (120 sales overall)
+2026-03-29 17:10:35,203 - INFO -     2. 601a360bd2a916ecef0e... (117 sales overall)
+2026-03-29 17:10:35,203 - INFO - Bundle 7: fashion_bags_accessories -> others
+2026-03-29 17:10:35,204 - INFO -   Lift: 6.057, Confidence: 47.4%, Support (multi-cart): 1.2%
+2026-03-29 17:10:35,214 - INFO -   Recommended SKUs from fashion_bags_accessories:
+2026-03-29 17:10:35,214 - INFO -     1. d017a2151d543a988560... (137 sales overall)
+2026-03-29 17:10:35,215 - INFO -     2. 1ec486885049bbb9b793... (40 sales overall)
+2026-03-29 17:10:35,215 - INFO -   Recommended SKUs from others:
+2026-03-29 17:10:35,215 - INFO -     1. 5a848e4ab52fd5445cdc... (187 sales overall)
+2026-03-29 17:10:35,215 - INFO -     2. b1d207586fca400a2370... (42 sales overall)
+2026-03-29 17:10:35,216 - INFO - Bundle 8: food_drink -> sports_leisure
+2026-03-29 17:10:35,216 - INFO -   Lift: 5.417, Confidence: 50.0%, Support (multi-cart): 0.3%
+2026-03-29 17:10:35,230 - INFO -   Recommended SKUs from food_drink:
+2026-03-29 17:10:35,230 - INFO -     1. 84f5c4f480ad6c9998d6... (23 sales overall)
+2026-03-29 17:10:35,231 - INFO -     2. 42eb5329dd0ee3d76d13... (13 sales overall)
+2026-03-29 17:10:35,231 - INFO -   Recommended SKUs from sports_leisure:
+2026-03-29 17:10:35,231 - INFO -     1. c6336fa91fbd87c359e4... (80 sales overall)
+2026-03-29 17:10:35,232 - INFO -     2. e44f675b60b3a3a2453e... (77 sales overall)
+2026-03-29 17:10:35,232 - INFO - Bundle 9: pet_shop -> others
+2026-03-29 17:10:35,233 - INFO -   Lift: 5.115, Confidence: 40.0%, Support (multi-cart): 0.8%
+2026-03-29 17:10:35,242 - INFO -   Recommended SKUs from pet_shop:
+2026-03-29 17:10:35,243 - INFO -     1. a4aa7c1427c31344e5f7... (41 sales overall)
+2026-03-29 17:10:35,243 - INFO -     2. ca5c923962558430573f... (36 sales overall)
+2026-03-29 17:10:35,243 - INFO -   Recommended SKUs from others:
+2026-03-29 17:10:35,243 - INFO -     1. 5a848e4ab52fd5445cdc... (187 sales overall)
+2026-03-29 17:10:35,244 - INFO -     2. b1d207586fca400a2370... (42 sales overall)
+2026-03-29 17:10:35,244 - INFO - Bundle 10: perfumery -> health_beauty
+2026-03-29 17:10:35,244 - INFO -   Lift: 4.476, Confidence: 40.7%, Support (multi-cart): 1.4%
+2026-03-29 17:10:35,257 - INFO -   Recommended SKUs from perfumery:
+2026-03-29 17:10:35,257 - INFO -     1. 2028bf1b01cafb2d2b19... (128 sales overall)
+2026-03-29 17:10:35,257 - INFO -     2. 595fac2a385ac33a80bd... (98 sales overall)
+2026-03-29 17:10:35,258 - INFO -   Recommended SKUs from health_beauty:
+2026-03-29 17:10:35,258 - INFO -     1. 154e7e31ebfa09220379... (262 sales overall)
+2026-03-29 17:10:35,258 - INFO -     2. 2b4609f8948be1887449... (254 sales overall)
+2026-03-29 17:10:35,258 - INFO - 
+[OK] Synthetic bundle recommendations complete: 10 bundles created
+2026-03-29 17:10:35,259 - INFO - Bundle Strategy: Pairing best-sellers from categories with strong statistical association
+2026-03-29 17:10:35,259 - INFO - 
+======================================================================
+2026-03-29 17:10:35,259 - INFO - PIPELINE EXECUTION COMPLETE
+2026-03-29 17:10:35,259 - INFO - Completed: 2026-03-29 17:10:35
+2026-03-29 17:10:35,260 - INFO - ======================================================================
+
