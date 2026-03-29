@@ -181,6 +181,134 @@ def create_multi_category_basket_matrix(transaction_list, transaction_matrix):
     return multi_cat_transaction_list, multi_cat_matrix, multi_cat_indices
 
 # ============================================================================
+# STEP 2.5: ADDITIONAL INTERESTINGNESS MEASURES FOR SPARSE DATA
+# ============================================================================
+
+def calculate_additional_measures(rules, itemsets):
+    """
+    Calculate supplementary interestingness measures to validate association rules
+    in sparse market basket data where standard metrics can be unstable.
+    
+    Measures added:
+    1. Cosine Similarity: |A ∩ B| / sqrt(|A| × |B|)
+       - Symmetric, independent of null transactions
+       - Useful for: Validating co-occurrence intensity
+    
+    2. Kulczynski: (P(A→B) + P(B→A)) / 2
+       - Symmetric average of directional confidences
+       - Useful for: Identifying bidirectional affinities vs one-way rules
+    
+    3. All Confidence: min(P(A→B), P(B→A))
+       - Conservative minimum of directional confidences
+       - Useful for: Filtering noise; ensures both directions are reasonably strong
+    
+    Args:
+        rules: DataFrame with association rules (contains antecedents, consequents, support, confidence)
+        itemsets: DataFrame with frequent itemsets (contains support values)
+    
+    Returns:
+        rules: Updated DataFrame with new columns: cosine, kulczynski, all_confidence
+    """
+    logger.info("=" * 70)
+    logger.info("STEP 2.5: CALCULATING ADDITIONAL INTERESTINGNESS MEASURES")
+    logger.info("=" * 70)
+    
+    if len(rules) == 0:
+        logger.warning("No rules available for additional measures")
+        return rules
+    
+    # Build lookup table for itemset support values
+    itemset_support = {}
+    for idx, row in itemsets.iterrows():
+        # frozenset as key for quick lookup
+        itemset_support[row['itemsets']] = row['support']
+    
+    cosine_values = []
+    kulczynski_values = []
+    all_confidence_values = []
+    
+    for idx, rule in rules.iterrows():
+        antecedent = rule['antecedents']
+        consequent = rule['consequents']
+        
+        # Get support values for individual itemsets
+        support_a = itemset_support.get(antecedent, 0)
+        support_b = itemset_support.get(consequent, 0)
+        support_ab = rule['support']  # Co-occurrence support
+        
+        # =====================================================================
+        # 1. COSINE SIMILARITY
+        # =====================================================================
+        # Formula: |A ∩ B| / sqrt(|A| × |B|)
+        # In context: support(A,B) / sqrt(support(A) × support(B))
+        # Range: [0, 1]
+        # Interpretation: Measures co-occurrence intensity without null transaction bias
+        
+        if support_a > 0 and support_b > 0:
+            cosine = support_ab / np.sqrt(support_a * support_b)
+        else:
+            cosine = 0.0
+        cosine_values.append(cosine)
+        
+        # =====================================================================
+        # 2. KULCZYNSKI METRIC
+        # =====================================================================
+        # Formula: (P(A→B) + P(B→A)) / 2
+        # In context: (confidence(A→B) + confidence(B→A)) / 2
+        # Range: [0, 1]
+        # Interpretation: Average of bidirectional confidence; identifies mutual affinities
+        
+        confidence_ab = rule['confidence']  # P(B|A)
+        
+        # Calculate P(A|B) = support(A,B) / support(B)
+        if support_b > 0:
+            confidence_ba = support_ab / support_b
+        else:
+            confidence_ba = 0.0
+        
+        kulczynski = (confidence_ab + confidence_ba) / 2
+        kulczynski_values.append(kulczynski)
+        
+        # =====================================================================
+        # 3. ALL CONFIDENCE (Minimum Confidence)
+        # =====================================================================
+        # Formula: min(P(A→B), P(B→A))
+        # In context: min(confidence(A→B), confidence(B→A))
+        # Range: [0, 1]
+        # Interpretation: Conservative filter; ensures both directions are strong
+        
+        all_confidence = min(confidence_ab, confidence_ba)
+        all_confidence_values.append(all_confidence)
+    
+    # Add new columns to rules dataframe
+    rules['cosine'] = cosine_values
+    rules['kulczynski'] = kulczynski_values
+    rules['all_confidence'] = all_confidence_values
+    
+    logger.info(f"\n--- ADDITIONAL MEASURES CALCULATED ---")
+    logger.info(f"Rules enhanced: {len(rules)}")
+    logger.info(f"Avg Cosine: {np.mean(cosine_values):.4f}")
+    logger.info(f"Avg Kulczynski: {np.mean(kulczynski_values):.4f}")
+    logger.info(f"Avg All Confidence: {np.mean(all_confidence_values):.4f}")
+    
+    # Show correlation between measures
+    logger.info(f"\n--- MEASURE CORRELATIONS WITH LIFT ---")
+    try:
+        corr_cosine = rules['cosine'].corr(rules['lift'])
+        corr_kulczynski = rules['kulczynski'].corr(rules['lift'])
+        corr_all_conf = rules['all_confidence'].corr(rules['lift'])
+        
+        logger.info(f"Cosine vs Lift correlation: {corr_cosine:.4f}")
+        logger.info(f"Kulczynski vs Lift correlation: {corr_kulczynski:.4f}")
+        logger.info(f"All Confidence vs Lift correlation: {corr_all_conf:.4f}")
+    except Exception as e:
+        logger.warning(f"Could not calculate correlations: {e}")
+    
+    logger.info("[OK] Additional measures complete\n")
+    
+    return rules
+
+# ============================================================================
 # STEP 3: APRIORI ALGORITHM WITH THRESHOLD EXPLORATION
 # ============================================================================
 
@@ -231,6 +359,9 @@ def run_apriori(transaction_matrix, support_thresholds=SUPPORT_THRESHOLDS):
             # Calculate metrics
             rules['antecedent_str'] = rules['antecedents'].apply(lambda x: ', '.join(sorted(list(x))))
             rules['consequent_str'] = rules['consequents'].apply(lambda x: ', '.join(sorted(list(x))))
+            
+            # Calculate additional interestingness measures (validates stability in sparse data)
+            rules = calculate_additional_measures(rules, itemsets)
             
             logger.info(f"  Association rules (confidence >= {MIN_CONFIDENCE:.1%}): {len(rules)}")
             logger.info(f"  Avg support: {rules['support'].mean():.4f}")
@@ -313,6 +444,9 @@ def run_fpgrowth(transaction_matrix, support_thresholds=SUPPORT_THRESHOLDS):
             
             # Add conditional support label for clarity
             rules['support_label'] = f"{CONDITIONAL_SUPPORT_LABEL}"
+            
+            # Calculate additional interestingness measures (validates stability in sparse data)
+            rules = calculate_additional_measures(rules, itemsets)
             
             logger.info(f"  Association rules (confidence >= {MIN_CONFIDENCE:.1%}): {len(rules)}")
             logger.info(f"  Avg support (among multi-item carts): {rules['support'].mean():.4f}")

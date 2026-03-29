@@ -355,16 +355,20 @@ def _export_final_rules(rules_df):
         'rank': range(1, len(rules_df) + 1),
         'antecedent_category': rules_df['antecedents'].apply(lambda x: list(x)[0] if len(x) == 1 else str(x)),
         'consequent_category': rules_df['consequents'].apply(lambda x: list(x)[0] if len(x) == 1 else str(x)),
+        'support': (rules_df['support'] * 100).round(2),
+        'confidence': (rules_df['confidence'] * 100).round(1),
         'lift': rules_df['lift'].round(3),
-        'confidence': (rules_df['confidence'] * 100).round(1),  # As percentage
-        'support': (rules_df['support'] * 100).round(2),  # As percentage
-        'support_context': 'Among Multi-Item Carts (780 orders)',
-        'antecedent_count': rules_df['antecedent support'].round(3) if 'antecedent support' in rules_df else '',
-        'consequent_count': rules_df['consequent support'].round(3) if 'consequent support' in rules_df else ''
+        'cosine': rules_df['cosine'].round(4) if 'cosine' in rules_df.columns else 'N/A',
+        'kulczynski': rules_df['kulczynski'].round(4) if 'kulczynski' in rules_df.columns else 'N/A',
+        'all_confidence': (rules_df['all_confidence'] * 100).round(1) if 'all_confidence' in rules_df.columns else 'N/A',
+        'antecedent_support': rules_df['antecedent support'].round(3) if 'antecedent support' in rules_df else '',
+        'consequent_support': rules_df['consequent support'].round(3) if 'consequent support' in rules_df else '',
+        'support_context': 'Among Multi-Item Carts (780 orders)'
     })
     
     export_df.to_csv(f"{EXPORT_DIR}/association_rules_final.csv", index=False)
-    print(f"  Exported {len(export_df)} rules")
+    print(f"  Exported {len(export_df)} rules with additional interestingness measures")
+    print(f"  Measures included: Lift, Confidence, Support, Cosine, Kulczynski, All Confidence")
 
 def _export_anchor_analysis(anchor_df):
     """Export anchor vs add-on analysis"""
@@ -379,7 +383,7 @@ def _export_anchor_analysis(anchor_df):
     print(f"  Exported {len(export_df)} categories")
 
 def _export_bundling_candidates(bundles_df):
-    """Export top 20 bundling candidates"""
+    """Export top 20 bundling candidates with additional measures"""
     if len(bundles_df) == 0:
         return
     
@@ -388,14 +392,17 @@ def _export_bundling_candidates(bundles_df):
         'rank': range(1, len(top_bundles) + 1),
         'antecedent': top_bundles['antecedents'].astype(str),
         'consequent': top_bundles['consequents'].astype(str),
-        'lift': top_bundles['lift'].round(3),
-        'confidence_%': (top_bundles['confidence'] * 100).round(1),
         'support_%': (top_bundles['support'] * 100).round(2),
+        'confidence_%': (top_bundles['confidence'] * 100).round(1),
+        'lift': top_bundles['lift'].round(3),
+        'cosine': top_bundles['cosine'].round(4) if 'cosine' in top_bundles.columns else 'N/A',
+        'kulczynski': top_bundles['kulczynski'].round(4) if 'kulczynski' in top_bundles.columns else 'N/A',
+        'all_confidence_%': (top_bundles['all_confidence'] * 100).round(1) if 'all_confidence' in top_bundles.columns else 'N/A',
         'support_context': 'Among Multi-Item Carts'
     })
     
     export_df.to_csv(f"{EXPORT_DIR}/bundling_recommendations.csv", index=False)
-    print(f"  Exported {len(export_df)} bundling pairs")
+    print(f"  Exported {len(export_df)} bundling pairs with 6 interestingness measures")
 
 def _export_basket_stats(composition):
     """Export market basket composition statistics"""

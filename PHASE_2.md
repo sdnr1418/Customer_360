@@ -49,6 +49,32 @@ Compares both algorithms:
 - All metrics mathematically valid
 - Lift values: 1.23x to 41.05x (average 6.84x)
 
+### 4.5. Interestingness Measures
+
+To address limitations of standard measures (Support, Confidence, Lift) in sparse market baskets, three complementary metrics are calculated for each rule:
+
+**1. Cosine Similarity** (Range: 0-1)
+- Formula: `support(A,B) / √(support(A) × support(B))`
+- Purpose: Validates co-occurrence intensity independent of null transactions
+- Protects against: Inflated lift from rare events (e.g., 3 orders driving 41x lift)
+- Example: High cosine (0.85+) confirms rule isn't statistical noise
+
+**2. Kulczynski Metric** (Range: 0-1)
+- Formula: `(confidence(A→B) + confidence(B→A)) / 2`
+- Purpose: Identifies bidirectional vs one-way associations
+- Protects against: Asymmetric rules showing high lift in only one direction
+- Example: If A→B is 100% but B→A is 20%, Kulczynski identifies this asymmetry
+
+**3. All Confidence** (Range: 0-100%)
+- Formula: `min(confidence(A→B), confidence(B→A))`
+- Purpose: Conservative filter ensuring both directions are strong
+- Protects against: Marketing promoting unidirectional associations as true bundles
+- Example: Ensures both category pairs reinforce each other for real bundles
+
+**Data Context:** With 99.2% single-category orders, these measures provide critical validation that discovered patterns are genuine market behaviors rather than statistical artifacts from rare multi-category occurrences.
+
+All three measures export to CSV alongside standard metrics for cross-validation analysis.
+
 ### 5. Bundle Synthesis
 
 Converts top rules into actionable bundles:
