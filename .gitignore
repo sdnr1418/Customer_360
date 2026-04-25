@@ -1,8 +1,8 @@
 # --- DATA FILES ---
 # Ignore the data folder where you'll store CSVs
-data/
+# data/
 # Ignore any loose CSV files in the root
-*.csv
+# *.csv
 *.zip
 *.rar
 

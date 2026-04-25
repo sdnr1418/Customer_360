@@ -1,0 +1,15 @@
+{
+  "k_value": 3,
+  "metrics": {
+    "silhouette": 0.38071508985657626,
+    "davies_bouldin": 0.9663192383467479,
+    "calinski_harabasz": 9364.416979359685,
+    "balance": 2.26913974665014
+  },
+  "cluster_sizes": {
+    "0": 38353,
+    "1": 38143,
+    "2": 16902
+  },
+  "total_customers": 93398
+}

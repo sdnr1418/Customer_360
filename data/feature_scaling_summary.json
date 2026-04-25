@@ -1,0 +1,65 @@
+{
+  "scaling_method": "RobustScaler (median=0, IQR=1)",
+  "why_robust": "Data has extreme outliers in monetary (right-skewed)",
+  "log_transformed_features": [
+    "log_num_orders",
+    "log_monetary",
+    "log_avg_order_value",
+    "log_total_items_bought",
+    "log_avg_item_price",
+    "log_recency"
+  ],
+  "categorical_features": [
+    "recency_quartile",
+    "preferred_category",
+    "customer_state"
+  ],
+  "binary_features": [
+    "is_repeat_customer",
+    "is_high_value",
+    "is_sp"
+  ],
+  "test_results": {
+    "elbow_inertias": {
+      "2": 132968.61911806517,
+      "3": 100248.16712573862,
+      "4": 73463.98661147294,
+      "5": 60391.99557889742,
+      "6": 50867.00188045585,
+      "7": 45211.574573745675,
+      "8": 40263.12884265662,
+      "9": 36615.264000876974,
+      "10": 33573.46001197384
+    },
+    "silhouette_scores": {
+      "2": 0.3871582664293849,
+      "3": 0.39395454729250895,
+      "4": 0.36700637112827844,
+      "5": 0.33736927343610923,
+      "6": 0.3459342833456297,
+      "7": 0.32526720590355424,
+      "8": 0.3265344786518094
+    },
+    "best_k_silhouette": 3,
+    "davies_bouldin_scores": {
+      "2": 0.9750365690965848,
+      "3": 0.9256139794102,
+      "4": 0.8529893720623484,
+      "5": 0.8930482632782584,
+      "6": 0.8799298998027999,
+      "7": 0.9317848135999235,
+      "8": 0.8932151840500118
+    },
+    "best_k_davies_bouldin": 4,
+    "calinski_harabasz_scores": {
+      "2": 7925.3621303945365,
+      "3": 6915.261116442346,
+      "4": 7581.317591667115,
+      "5": 7465.6128242754185,
+      "6": 7400.759592725522,
+      "7": 7193.497318790952,
+      "8": 7064.927311203821
+    },
+    "best_k_calinski_harabasz": 2
+  }
+}
