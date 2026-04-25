@@ -27,7 +27,6 @@ def load_raw_data_to_postgres(data_folder='data/'):
         path = os.path.join(data_folder, file_name)
         print(f"Loading {file_name} into PostgreSQL table '{table_name}'...")
         df = pd.read_csv(path)
-        # We use if_exists='replace' to ensure a clean start during development
         df.to_sql(table_name, engine, if_exists='replace', index=False)
 
 def get_master_df_via_sql():
@@ -54,12 +53,11 @@ def get_master_df_via_sql():
     return pd.read_sql(query, engine)
 
 if __name__ == "__main__":
-    # Part 1: Populate your SQL Warehouse
+    #Populate SQL Warehouse
     load_raw_data_to_postgres()
     
-    # Part 2: Extract the Denormalized Master Table
+    # Extract the Denormalized Master Table
     master_df = get_master_df_via_sql()
-
     master_df.to_csv('data/master_df.csv', index=False)
     print("Saved local copy to data/master_df.csv")
     

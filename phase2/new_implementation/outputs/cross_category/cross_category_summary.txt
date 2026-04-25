@@ -1,0 +1,16 @@
+CROSS-CATEGORY ASSOCIATION RULES SUMMARY
+======================================================================
+
+Dataset: 780 multi-category orders
+Support threshold: 0.2%
+Confidence threshold: 30%
+
+Total rules: 25
+Avg lift: 6.84
+Max lift: 41.05
+Avg cosine: 0.2024
+Avg kulczynski: 0.3157
+Avg all_confidence: 0.1021
+Avg max_confidence: 0.5294
+Avg imbalance_ratio: 0.7172
+Convergence: PASS

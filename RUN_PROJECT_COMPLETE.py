@@ -1,255 +1,308 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-MASTER EXECUTION SCRIPT - Data Mining Project
-Runs all phases step-by-step and validates outputs
+RUN_PROJECT_COMPLETE.py
+============================================================================
+MASTER EXECUTION SCRIPT -- Customer 360 Data Mining Project
+Validates environment, documents phase outputs, and prints a full summary.
+
+Phases:
+  Phase 1 -- Data Preprocessing & EDA         (outputs in data/)
+  Phase 2 -- Association Rule Mining           (outputs in phase2/new_implementation/outputs/)
+  Phase 3 -- Customer Segmentation             (outputs in data/ + phase3/visualizations/)
+  Phase 4 -- Integration (coming next)
+
+Run with:
+    python RUN_PROJECT_COMPLETE.py
+============================================================================
 """
 
 import sys
 import os
-from pathlib import Path
 import subprocess
+from pathlib import Path
 
-# Get project root
+# ---------------------------------------------------------------------------
+# PATHS
+# ---------------------------------------------------------------------------
+
 PROJECT_ROOT = Path(__file__).parent
-PHASE1_DIR = PROJECT_ROOT / "phase1"
-PHASE2_DIR = PROJECT_ROOT / "phase2"
-DATA_DIR = PROJECT_ROOT / "data"
-LOGS_DIR = PROJECT_ROOT / "logs"
+PHASE1_DIR   = PROJECT_ROOT / "phase1"
+PHASE2_DIR   = PROJECT_ROOT / "phase2"
+PHASE3_DIR   = PROJECT_ROOT / "phase3"
+DATA_DIR     = PROJECT_ROOT / "data"
+LOGS_DIR     = PROJECT_ROOT / "logs"
+
+P2_CROSS = PHASE2_DIR / "new_implementation" / "outputs" / "cross_category"
+P2_INTRA = PHASE2_DIR / "new_implementation" / "outputs" / "intra_category"
+P3_VIZ   = PHASE3_DIR / "visualizations"
+
+# ---------------------------------------------------------------------------
+# HELPERS
+# ---------------------------------------------------------------------------
+
+def section(title):
+    print("\n" + "=" * 90)
+    print("  " + title)
+    print("=" * 90)
+
+def ok(msg, detail=""):
+    print("  [  OK  ] {}  {}".format(msg, detail))
+
+def warn(msg, detail=""):
+    print("  [ WARN ] {}  {}".format(msg, detail))
+
+def fail(msg, detail=""):
+    print("  [ FAIL ] {}  {}".format(msg, detail))
+
+def check_file(label, path, min_mb=None):
+    if path.exists():
+        size_mb = path.stat().st_size / (1024 ** 2)
+        detail  = "({:.2f} MB)".format(size_mb)
+        if min_mb and size_mb < min_mb:
+            warn(label, detail + " -- smaller than expected")
+        else:
+            ok(label, detail)
+        return True
+    else:
+        fail(label, "(NOT FOUND)")
+        return False
+
+# ---------------------------------------------------------------------------
+# BANNER
+# ---------------------------------------------------------------------------
 
 print("=" * 90)
-print(" " * 20 + "DATA MINING PROJECT - COMPLETE EXECUTION")
+print(" " * 15 + "CUSTOMER 360 -- DATA MINING PROJECT  |  COMPLETE EXECUTION")
 print("=" * 90)
 
-# =============================================================================
+# ===========================================================================
 # STEP 0: PRE-FLIGHT CHECKS
-# =============================================================================
+# ===========================================================================
 
-print("\n[STEP 0] PRE-FLIGHT CHECKS")
-print("-" * 90)
+section("STEP 0: PRE-FLIGHT CHECKS")
 
-checks = {
-    "Phase 1 Folder": PHASE1_DIR.exists(),
-    "Phase 2 Folder": PHASE2_DIR.exists(),
-    "Data Folder": DATA_DIR.exists(),
-    "Logs Folder": LOGS_DIR.exists(),
+required_dirs = {
+    "Phase 1 Folder":  PHASE1_DIR,
+    "Phase 2 Folder":  PHASE2_DIR,
+    "Phase 3 Folder":  PHASE3_DIR,
+    "Data Folder":     DATA_DIR,
 }
 
-for check_name, result in checks.items():
-    status = "[OK]" if result else "[FAIL]"
-    print(f"  {status} {check_name}")
-
-if not all(checks.values()):
-    print("\n[ERROR] Pre-flight checks failed!")
-    sys.exit(1)
-
-# Check environment variables
-print("\n  Checking environment configuration...")
-from dotenv import load_dotenv
-load_dotenv()
-db_password = os.getenv('DB_PASSWORD')
-if db_password:
-    print("  [OK] Database credentials loaded from .env")
-else:
-    print("  [WARN] No DB_PASSWORD found in .env (may need database setup)")
-
-# =============================================================================
-# STEP 1: VALIDATE DATA FILES
-# =============================================================================
-
-print("\n[STEP 1] VALIDATING DATA FILES")
-print("-" * 90)
-
-required_files = [
-    'olist_customers_dataset.csv',
-    'olist_orders_dataset.csv',
-    'olist_order_items_dataset.csv',
-    'olist_products_dataset.csv',
-    'product_category_name_translation.csv'
-]
-
-all_files_exist = True
-for fname in required_files:
-    fpath = DATA_DIR / fname
-    if fpath.exists():
-        size_mb = fpath.stat().st_size / (1024 ** 2)
-        print(f"  [OK] {fname} ({size_mb:.2f} MB)")
+all_dirs_ok = True
+for label, path in required_dirs.items():
+    if path.exists():
+        ok(label)
     else:
-        print(f"  [FAIL] {fname} - NOT FOUND")
-        all_files_exist = False
+        fail(label)
+        all_dirs_ok = False
 
-if not all_files_exist:
-    print("\n[ERROR] Required data files not found!")
+if not LOGS_DIR.exists():
+    warn("Logs Folder", "(not found -- non-critical)")
+
+if not all_dirs_ok:
+    print("\n[ERROR] Critical folders missing. Aborting.")
     sys.exit(1)
 
-# =============================================================================
-# STEP 2: TEST DATABASE CONNECTION
-# =============================================================================
+# Check .env / DB credentials
+print()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+    db_password = os.getenv("DB_PASSWORD")
+    if db_password:
+        ok("Database credentials loaded from .env")
+    else:
+        warn("No DB_PASSWORD in .env", "(CSV fallback will be used where needed)")
+except ImportError:
+    warn("python-dotenv not installed", "(CSV fallback will be used where needed)")
 
-print("\n[STEP 2] TESTING DATABASE CONNECTION")
-print("-" * 90)
+# ===========================================================================
+# STEP 1: TEST DATABASE CONNECTION
+# ===========================================================================
+
+section("STEP 1: DATABASE CONNECTION CHECK")
 
 try:
     from sqlalchemy import create_engine, text
-    password = os.getenv('DB_PASSWORD')
-    DB_URI = f'postgresql://postgres:{password}@localhost:5432/customer_360'
+    password = os.getenv("DB_PASSWORD", "postgres")
+    DB_URI = "postgresql://postgres:{}@localhost:5432/customer_360".format(password)
     engine = create_engine(DB_URI)
-    
     with engine.connect() as conn:
-        result = conn.execute(text("SELECT version();"))
+        result  = conn.execute(text("SELECT version();"))
         version = result.fetchone()[0]
-        print(f"  [OK] Connected to PostgreSQL")
-        print(f"       {version.split(',')[0]}")
+        ok("Connected to PostgreSQL", "({})".format(version.split(",")[0]))
 except Exception as e:
-    print(f"  [WARN] Database connection failed: {str(e)}")
-    print("         Skipping Phase 1 (requires database)")
-    print("         Will proceed directly to Phase 2 validation")
+    warn("Database connection failed", str(e))
+    print("       CSV fallback will be used in phase scripts.")
 
-# =============================================================================
-# PHASE 1: DATA PREPARATION & EDA
-# =============================================================================
+# ===========================================================================
+# STEP 2: VALIDATE DATA FILES (Phase 1 outputs)
+# ===========================================================================
 
-print("\n" + "=" * 90)
-print("PHASE 1: DATA PREPARATION & EXPLORATORY DATA ANALYSIS")
-print("=" * 90)
+section("STEP 2: PHASE 1 -- DATA PREPARATION & EDA OUTPUTS")
 
-phase1_scripts = [
-    ("preprocessing.py", "Step 1.1: Load & Transform Raw Data"),
-    ("cleaning.py", "Step 1.2: Data Cleaning"),
-    ("eda_report.py", "Step 1.3: Exploratory Data Analysis"),
-    ("feature_engineering.py", "Step 1.4: Feature Engineering"),
-    ("feature_scaling.py", "Step 1.5: Feature Scaling"),
-    ("validate_phase1.py", "Step 1.6: Validation"),
+print("  Core raw files:")
+raw_files = [
+    "olist_customers_dataset.csv",
+    "olist_orders_dataset.csv",
+    "olist_order_items_dataset.csv",
+    "olist_products_dataset.csv",
+    "product_category_name_translation.csv",
 ]
+for fname in raw_files:
+    check_file("  " + fname, DATA_DIR / fname)
 
-print("\nPhase 1 consists of 6 steps:")
-for script, description in phase1_scripts:
-    fpath = PHASE1_DIR / script
-    status = "[OK]" if fpath.exists() else "[FAIL]"
-    print(f"  {status} {description}")
-
-print("\n[SKIP] Phase 1 execution requires database setup")
-print("       All Phase 1 outputs already available in data/ folder:")
-print("         - master_cleaned.csv (13.32 MB)")
-print("         - master_df.csv (14.65 MB)")
-print("         - customer_features_full.csv (23.68 MB)")
-
-# =============================================================================
-# PHASE 2: ASSOCIATION RULE MINING
-# =============================================================================
-
-print("\n" + "=" * 90)
-print("PHASE 2: ASSOCIATION RULE MINING")
-print("=" * 90)
-
-print("\nExecuting Phase 2 master script...")
-print("-" * 90)
-
-try:
-    phase2_run = PHASE2_DIR / "run_phase2_complete.py"
-    if phase2_run.exists():
-        print(f"\nRunning: {phase2_run.name}")
-        # Run the Phase 2 orchestration script
-        result = subprocess.run(
-            [sys.executable, str(phase2_run)],
-            cwd=str(PHASE2_DIR),
-            capture_output=True,
-            text=True,
-            timeout=120
-        )
-        
-        # Print output
-        if result.stdout:
-            print(result.stdout)
-        if result.stderr:
-            print("STDERR:", result.stderr)
-        
-        if result.returncode != 0:
-            print(f"\n[WARN] Phase 2 execution returned code {result.returncode}")
-    else:
-        print(f"[ERROR] Phase 2 run script not found: {phase2_run}")
-        
-except subprocess.TimeoutExpired:
-    print("[ERROR] Phase 2 execution timed out!")
-except Exception as e:
-    print(f"[ERROR] Phase 2 execution failed: {str(e)}")
-
-# =============================================================================
-# VALIDATION & SUMMARY
-# =============================================================================
-
-print("\n" + "=" * 90)
-print("VALIDATION & OUTPUT SUMMARY")
-print("=" * 90)
-
-from pathlib import Path
-
-# Check Phase 1 outputs
-print("\n[PHASE 1 OUTPUTS]")
-phase1_outputs = {
-    "Cleaned Data": DATA_DIR / "master_cleaned.csv",
-    "Master DataFrame": DATA_DIR / "master_df.csv",
-    "Feature Engineering (Full)": DATA_DIR / "customer_features_full.csv",
-    "Feature Scaling (KMeans)": DATA_DIR / "customer_features_kmeans.csv",
-    "Feature Scaling (KPrototypes)": DATA_DIR / "customer_features_kprototypes.csv",
+print("\n  Phase 1 processed outputs:")
+p1_outputs = {
+    "master_cleaned.csv":               5,
+    "master_df.csv":                    5,
+    "customer_features_full.csv":       10,
+    "customer_features_kprototypes.csv": 5,
 }
+for fname, min_mb in p1_outputs.items():
+    check_file(fname, DATA_DIR / fname, min_mb=min_mb)
 
-for name, fpath in phase1_outputs.items():
+print("\n  [SKIP] Phase 1 scripts not re-run (outputs already present above)")
+
+# ===========================================================================
+# STEP 3: PHASE 2 -- ASSOCIATION RULE MINING
+# ===========================================================================
+
+section("STEP 3: PHASE 2 -- ASSOCIATION RULE MINING OUTPUTS")
+
+print("  Output directories:")
+for label, path in [
+    ("cross_category outputs", P2_CROSS),
+    ("intra_category outputs", P2_INTRA),
+]:
+    if path.exists():
+        ok(label)
+    else:
+        fail(label)
+
+print("\n  Rules files:")
+for fname in ["cross_category_rules.csv", "intra_category_rules.csv"]:
+    base_dir = P2_CROSS if "cross" in fname else P2_INTRA
+    fpath = base_dir / fname
+    if fpath.exists():
+        import pandas as pd
+        try:
+            df = pd.read_csv(fpath)
+            ok(fname, "({} rules)".format(len(df)))
+        except Exception as e:
+            warn(fname, str(e))
+    else:
+        fail(fname, "(NOT FOUND)")
+
+print("\n  Visualizations:")
+if P2_CROSS.exists():
+    viz_dir = P2_CROSS / "visualizations"
+    pngs    = sorted(viz_dir.glob("*.png")) if viz_dir.exists() else []
+    ok("Phase 2 charts", "({} PNG files)".format(len(pngs)))
+    for f in pngs:
+        print("       - {} ({:.0f} KB)".format(f.name, f.stat().st_size / 1024))
+
+print("\n  Exports:")
+if P2_CROSS.exists():
+    exp_dir = P2_CROSS / "exports"
+    csvs    = sorted(exp_dir.glob("*.csv")) if exp_dir.exists() else []
+    ok("Phase 2 CSV exports", "({} files)".format(len(csvs)))
+    for f in csvs:
+        print("       - {} ({:.0f} KB)".format(f.name, f.stat().st_size / 1024))
+
+# ===========================================================================
+# STEP 4: PHASE 3 -- CUSTOMER SEGMENTATION
+# ===========================================================================
+
+section("STEP 4: PHASE 3 -- CUSTOMER SEGMENTATION OUTPUTS")
+
+print("  Segment data files:")
+p3_data = {
+    "customer_segments_k3.csv":   "Segment assignments for all customers",
+    "clustering_metrics_k3.json": "Silhouette, DB, CH metrics",
+    "segment_profiles_k3.csv":    "Per-segment profile summary",
+}
+for fname, desc in p3_data.items():
+    fpath = DATA_DIR / fname
     if fpath.exists():
         size_mb = fpath.stat().st_size / (1024 ** 2)
-        print(f"  [OK] {name}: {size_mb:.2f} MB")
+        ok("{} -- {}".format(fname, desc), "({:.2f} MB)".format(size_mb))
     else:
-        print(f"  [MISSING] {name}")
+        fail(fname, "(NOT FOUND)")
 
-# Check Phase 2 outputs
-print("\n[PHASE 2 OUTPUTS]")
+# Print clustering metrics
+import json
+metrics_path = DATA_DIR / "clustering_metrics_k3.json"
+if metrics_path.exists():
+    with open(metrics_path) as f:
+        m = json.load(f)
+    metrics = m.get("metrics", {})
+    print("\n  Clustering quality metrics (K=3):")
+    sil = metrics.get("silhouette")
+    db  = metrics.get("davies_bouldin")
+    ch  = metrics.get("calinski_harabasz")
+    if sil is not None:
+        quality = "EXCELLENT" if sil > 0.5 else "GOOD" if sil > 0.3 else "FAIR" if sil > 0.1 else "POOR"
+        print("       Silhouette Score:        {:.4f}  [{}]".format(sil, quality))
+    if db is not None:
+        quality = "EXCELLENT" if db < 0.7 else "GOOD" if db < 1.0 else "FAIR" if db < 1.5 else "POOR"
+        print("       Davies-Bouldin Index:    {:.4f}  [{}]".format(db, quality))
+    if ch is not None:
+        print("       Calinski-Harabasz Index: {:.2f}".format(ch))
 
-outputs_dir = PROJECT_ROOT / "phase2_outputs"
+    # Cluster sizes
+    cluster_sizes = m.get("cluster_sizes", {})
+    total = m.get("total_customers", 1)
+    if cluster_sizes:
+        print("\n  Cluster distribution:")
+        for seg, cnt in sorted(cluster_sizes.items(), key=lambda x: int(x[0])):
+            pct = cnt / total * 100
+            bar = "[" + "=" * int(pct / 5) + "]"
+            print("    Segment {}: {:7,} customers ({:.1f}%) {}".format(seg, cnt, pct, bar))
 
-if outputs_dir.exists():
-    # Check visualizations
-    viz_dir = outputs_dir / "visualizations"
-    if viz_dir.exists():
-        viz_files = list(viz_dir.glob("*.png"))
-        print(f"  [OK] Visualizations: {len(viz_files)} PNG files")
-        for vf in sorted(viz_files):
-            size_kb = vf.stat().st_size / 1024
-            print(f"       - {vf.name} ({size_kb:.1f} KB)")
-    
-    # Check exports
-    export_dir = outputs_dir / "exports"
-    if export_dir.exists():
-        csv_files = list(export_dir.glob("*.csv"))
-        print(f"  [OK] CSV Exports: {len(csv_files)} files")
-        for cf in sorted(csv_files):
-            size_kb = cf.stat().st_size / 1024
-            print(f"       - {cf.name} ({size_kb:.1f} KB)")
-    
-    # Check report
-    report_file = outputs_dir / "PHASE2_ASSOCIATION_RULES_REPORT.md"
-    if report_file.exists():
-        size_kb = report_file.stat().st_size / 1024
-        print(f"  [OK] Strategic Report: PHASE2_ASSOCIATION_RULES_REPORT.md ({size_kb:.1f} KB)")
+print("\n  Visualizations:")
+if P3_VIZ.exists():
+    pngs = sorted(P3_VIZ.glob("*.png"))
+    ok("Phase 3 charts", "({} PNG files)".format(len(pngs)))
+    for f in pngs:
+        print("       - {} ({:.0f} KB)".format(f.name, f.stat().st_size / 1024))
 else:
-    print("  [WARN] phase2_outputs directory not found")
+    warn("phase3/visualizations/ not found")
 
-# =============================================================================
-# EXECUTION COMPLETE
-# =============================================================================
+# ===========================================================================
+# FINAL SUMMARY
+# ===========================================================================
 
-print("\n" + "=" * 90)
-print("PROJECT EXECUTION COMPLETE")
-print("=" * 90)
+section("PROJECT SUMMARY")
 
-print("\n[DELIVERABLES LOCATION]")
-print(f"  Phase 1 Data:    {DATA_DIR}/")
-print(f"  Phase 2 Results: {outputs_dir}/")
-print(f"  Documentation:   docs/")
-print(f"  Logs:            {LOGS_DIR}/")
+print("""
+  STATUS
+  ------
+  Phase 1 -- Data Preprocessing & EDA       [COMPLETE]
+  Phase 2 -- Association Rule Mining        [COMPLETE]
+  Phase 3 -- Customer Segmentation          [COMPLETE]
+  Phase 4 -- Integration & Insights         [PENDING]
 
-print("\n[NEXT STEPS]")
-print("  1. Review PHASE2_ASSOCIATION_RULES_REPORT.md for insights")
-print("  2. Examine visualizations in phase2_outputs/visualizations/")
-print("  3. Analyze CSV exports in phase2_outputs/exports/")
-print("  4. Share findings with stakeholders")
+  DELIVERABLE LOCATIONS
+  ---------------------
+  Phase 1 data:          data/
+  Phase 2 rules:         phase2/new_implementation/outputs/cross_category/
+  Phase 2 charts:        phase2/new_implementation/outputs/cross_category/visualizations/
+  Phase 3 segments:      data/customer_segments_k3.csv
+  Phase 3 metrics:       data/clustering_metrics_k3.json
+  Phase 3 charts:        phase3/visualizations/
+  Documentation:         docs/
 
-print("\n" + "=" * 90 + "\n")
+  NEXT STEPS -- Phase 4
+  ----------------------
+  1. Join customer_segments_k3.csv with master_cleaned.csv
+  2. Filter transactions per segment (Segment 0, 1, 2)
+  3. Run Apriori / FP-Growth independently per segment
+  4. Compare rules across segments
+  5. Answer: "How do product associations differ across customer segments?"
+
+  TIP: Run VALIDATE_ALL_PHASES.py for a detailed pre-Phase-4 integrity check.
+""")
+
+print("=" * 90 + "\n")

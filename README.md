@@ -1,103 +1,172 @@
-# Data Mining Project: Olist Product Bundling Analysis
+# Data Mining Project: Customer 360 — Olist E-Commerce Analysis
 
-**Status:** Phase 1 & 2 Complete  
-**Last Updated:** March 29, 2026
+**Status:** Phase 1 ✅ | Phase 2 ✅ | Phase 3 ✅ | Phase 4 🔜  
+**Last Updated:** April 25, 2026  
+**Team:** Saad Nasir (23L-2625) · Ibrahim Moeed (23L-2602) · Abdullah Azmat (23L-2611)
 
-## Project Overview
+---
 
-This project analyzes product purchasing patterns in the Olist Brazilian marketplace to identify cross-selling opportunities. We analyzed 96,478 transactions across 72 product categories and discovered 25 association rules with up to 41x lift, resulting in 10 recommended product bundles.
+## Overview
 
-**Main Finding:** While 99.2% of orders contain single categories, the remaining 0.8% reveal strong cross-category purchasing patterns. The strongest association (children's clothing → bags) shows 41x higher probability than random chance.
+Full data mining pipeline on the **Olist Brazilian E-Commerce dataset** (100K+ orders, 2016–2018) built to answer:
+
+> **"How do product associations differ across customer segments?"**
+
+Two complementary analyses combined into a **Customer 360** view:
+- **Phase 2 — Association Rule Mining:** *What products go together?*
+- **Phase 3 — Customer Segmentation:** *Who are our customers?*
+- **Phase 4 — Integration:** *How do associations differ per segment?*
+
+---
 
 ## Project Structure
 
 ```
 DM_project/
-├── PHASE_1.md              Phase 1 data preparation guide
-├── PHASE_2.md              Phase 2 analysis guide
-├── README.md               This file
+├── README.md                    This file
+├── RUN_PROJECT_COMPLETE.py      Master summary & output validation script
+├── VALIDATE_ALL_PHASES.py       Pre-Phase 4 integrity checker
 │
-├── phase1/                 Phase 1 scripts
+├── phase1/                      Phase 1 scripts
 │   ├── preprocessing.py
 │   ├── cleaning.py
 │   ├── feature_engineering.py
-│   └── eda_report.py
+│   ├── feature_scaling.py
+│   ├── feature_scaling_visualizations.py
+│   ├── eda_report.py
+│   └── validate_phase1.py
 │
-├── phase2/                 Phase 2 scripts
-│   ├── association_rules.py
-│   ├── phase2_visualizations_exports.py
-│   ├── phase2_strategic_report.py
-│   └── run_phase2_complete.py
+├── phase2/
+│   └── new_implementation/
+│       ├── scripts/
+│       │   ├── arm_cross_category.py
+│       │   ├── arm_intra_category.py
+│       │   └── threshold_exploration.py
+│       └── outputs/
+│           ├── cross_category/
+│           │   ├── cross_category_rules.csv     25 rules
+│           │   ├── cross_category_summary.txt
+│           │   ├── visualizations/              4 charts (PNG)
+│           │   └── exports/                     3 CSV exports
+│           └── intra_category/
+│               ├── intra_category_rules.csv     2 rules
+│               └── visualizations/
 │
-├── phase2_outputs/         Final deliverables
-│   ├── association_rules_final.csv
-│   ├── bundling_recommendations.csv
-│   ├── visualizations/     6 charts (PNG)
-│   └── exports/            5 CSV files
+├── phase3/
+│   ├── phase3_clustering.py
+│   ├── create_phase3_visualizations.py
+│   └── visualizations/                          6 charts (PNG)
 │
-└── data/                   Raw and processed data files
+├── data/                        Raw CSVs + all processed outputs
+│   ├── master_cleaned.csv
+│   ├── master_df.csv
+│   ├── customer_features_full.csv
+│   ├── customer_features_kprototypes.csv
+│   ├── customer_segments_k3.csv
+│   ├── clustering_metrics_k3.json
+│   └── segment_profiles_k3.csv
+│
+├── docs/                        Project proposal and documentation
+├── DO_NOT_PUSH/                 Presentation reference files (not for repo)
+└── venv/                        Python virtual environment
 ```
+
+---
 
 ## What We Did
 
-### Phase 1: Data Cleaning
-- Consolidated 8 raw CSV files (100K+ records)
-- Removed invalid records (14.3% filtered out)
-- Generated 96,478 clean transactions
-- Created feature sets for analysis
-- Output: master_cleaned.csv + 4 feature files
+### Phase 1 — Data Preprocessing & EDA
+- Loaded 8 raw Olist CSVs into PostgreSQL
+- Cleaned data: nulls, duplicates, invalid prices, outliers
+- Engineered RFM features: Recency, Frequency, Monetary + behavioral flags
+- Scaled features: log transformation + RobustScaler
+- Output: `master_cleaned.csv` (100,196 rows) + feature files
 
-### Phase 2: Association Rule Mining
-- Applied Apriori algorithm: 25 rules at 0.2% support threshold
-- Applied FP-Growth algorithm: 25 identical rules (validation)
-- Identified 10 actionable bundles with strong associations
-- Generated visualizations and comprehensive report
-- Output: association rules, bundle recommendations, 6 charts
+### Phase 2 — Association Rule Mining
+- Conducted two distinct analyses: **Cross-Category** and **Intra-Category** rule mining
+- **Cross-Category Analysis**: Filtered to 780 multi-category orders (0.8% of total) to find associations between different product categories
+- **Intra-Category Analysis**: Analyzed orders to find product associations within the same category
+- Applied **Apriori** and **FP-Growth** independently
+- Both algorithms produced **identical results** (100% convergence)
+- Output: `cross_category_rules.csv` (25 rules), `intra_category_rules.csv` (2 rules), along with visualizations and exports
+
+### Phase 3 — Customer Segmentation
+- Built RFM + geographic (state) feature matrix for 93,398 customers
+- Applied **K-Prototypes** (handles mixed numerical + categorical data)
+- Trained on 15% stratified sample, predicted on full dataset
+- Optimal K=3 determined by Elbow + Silhouette + Davies-Bouldin + Calinski-Harabasz consensus
+- Output: segment assignments, metrics JSON, profile CSV, 6 visualizations
+
+---
+
 ## Key Results
 
+### Phase 2 — Association Rules
+
+**Cross-Category Analysis**
 | Metric | Value |
 |--------|-------|
-| Records Processed | 96,478 |
-| Product Categories | 72 |
-| Multi-category Orders | 780 (0.8%) |
-| Association Rules Found | 25 |
-| Algorithm Agreement | 100% (Apriori = FP-Growth) |
-| Strongest Association | 41.05x lift (children's → bags) |
-| Average Lift | 6.84x |
-| High Confidence Rules (100%) | 8 out of 25 |
-| Recommended Bundles | 10 |
+| Multi-category orders analyzed | 780 (0.8% of total) |
+| Association rules found | 25 |
+| Algorithm agreement | 100% (Apriori = FP-Growth) |
+| Max lift | **41.05x** (children's clothing → bags) |
+| Average lift | **6.84x** |
+| Industry benchmark | 1.5–3x |
 
-## Top Bundles (First 3)
+**Intra-Category Analysis**
+| Metric | Value |
+|--------|-------|
+| Association rules found | 2 |
+| Algorithm agreement | 100% (Apriori = FP-Growth) |
 
-1. **Children's Clothing → Bags** - 41x lift, 100% confidence
-2. **Books → Marketplace** - 26x lift, 40% confidence  
-3. **Audio → Watches & Gifts** - 19.5x lift, 100% confidence
+**Top 3 Cross-Category Rules:**
 
-*See phase2_outputs/bundling_recommendations.csv for all 10*
+| Antecedent | Consequent | Lift | Confidence |
+|------------|-----------|------|-----------|
+| Children's Clothing | Bags & Accessories | 41.05x | 100% |
+| General Books | Marketplace | 26.00x | 40% |
+| Audio Equipment | Watches & Gifts | 19.50x | 100% |
+
+### Phase 3 — Customer Segments
+
+| Segment | Size | Avg Spend | Recency | Repeat % | Profile |
+|---------|------|-----------|---------|----------|---------|
+| 0 | 38,353 (41%) | $52.89 | 278 days | 2.2% | Low-value, Churned |
+| 1 | 38,143 (41%) | $226.57 | 272 days | 3.7% | High-value, Inactive |
+| 2 | 16,902 (18%) | $102.90 | 70 days | 3.5% | Recent & Active |
+
+| Clustering Metric | Value | Quality |
+|------------------|-------|---------|
+| Silhouette Score | 0.38 | Good |
+| Davies-Bouldin Index | 0.97 | Good |
+| Calinski-Harabasz | 9,364 | — |
+
+---
 
 ## How to Run
 
-```bash
-# Activate environment
-source venv/Scripts/Activate.ps1
+```powershell
+# Activate virtual environment
+.\venv\Scripts\Activate.ps1
 
-# Run all validations
+# View full project summary & validate all outputs
 python RUN_PROJECT_COMPLETE.py
+
+# Run detailed integrity check before Phase 4
+python VALIDATE_ALL_PHASES.py
 ```
 
-## Key Files
+---
 
-- **Phase 1 Guide:** [PHASE_1.md](PHASE_1.md)
-- **Phase 2 Guide:** [PHASE_2.md](PHASE_2.md)  
-- **Bundle CSV:** phase2_outputs/bundling_recommendations.csv
-- **Rules CSV:** phase2_outputs/association_rules_final.csv
-- **Report:** phase2_outputs/PHASE2_ASSOCIATION_RULES_REPORT.md
-- **Charts:** phase2_outputs/visualizations/
+## Technologies
 
-## Technologies Used
+| Library | Purpose |
+|---------|---------|
+| pandas, numpy | Data processing |
+| sqlalchemy, psycopg2 | PostgreSQL integration |
+| mlxtend | Apriori & FP-Growth (Phase 2) |
+| kmodes | K-Prototypes clustering (Phase 3) |
+| scikit-learn | Metrics & preprocessing |
+| matplotlib, seaborn | Visualizations |
 
-- Python 3.12
-- pandas, numpy (data processing)
-- scikit-learn, mlxtend (algorithms)
-- Apriori & FP-Growth algorithms
-- matplotlib, seaborn (visualization)
+**Python 3.12 · PostgreSQL 17.6**

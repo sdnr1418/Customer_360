@@ -1,0 +1,22 @@
+INTRA-CATEGORY ASSOCIATION RULES SUMMARY
+======================================================================
+
+Dataset: 2,417 multi-item, single-category orders
+Products analyzed: 3,677 unique SKUs
+Support threshold: 1.0% (1%+ of intra-category orders)
+Confidence threshold: 30%
+
+Total rules: 2
+Avg lift: 45.05
+Max lift: 45.05
+Avg cosine: 0.7961
+Avg kulczynski: 0.8015
+Avg all_confidence: 0.7083
+Avg max_confidence: 0.8947
+Avg imbalance_ratio: 0.1923
+Convergence: PASS
+
+Business Application:
+  - Product bundling recommendations
+  - Cross-merchandising strategy
+  - Inventory positioning
