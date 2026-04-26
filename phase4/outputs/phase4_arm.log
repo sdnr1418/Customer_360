@@ -1,0 +1,134 @@
+2026-04-25 21:17:47,800 - INFO - Loading orders data...
+2026-04-25 21:17:48,001 - INFO - Loading segments data...
+2026-04-25 21:17:48,052 - INFO - Merging orders with segments...
+2026-04-25 21:17:48,142 - INFO - Total merged items: 100285
+2026-04-25 21:17:48,153 - INFO - 
+========================================
+2026-04-25 21:17:48,153 - INFO - RUNNING FP-GROWTH FOR SEGMENT 0
+2026-04-25 21:17:48,153 - INFO - ========================================
+2026-04-25 21:17:48,179 - INFO - Total multi-category orders in Segment 0: 188
+2026-04-25 21:17:48,188 - INFO - Rules found: 55
+2026-04-25 21:17:48,193 - INFO - Saved segment 0 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_0_rules.csv
+2026-04-25 21:17:48,200 - INFO - 
+========================================
+2026-04-25 21:17:48,200 - INFO - RUNNING FP-GROWTH FOR SEGMENT 1
+2026-04-25 21:17:48,200 - INFO - ========================================
+2026-04-25 21:17:48,222 - INFO - Total multi-category orders in Segment 1: 416
+2026-04-25 21:17:48,231 - INFO - Rules found: 64
+2026-04-25 21:17:48,234 - INFO - Saved segment 1 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_1_rules.csv
+2026-04-25 21:17:48,239 - INFO - 
+========================================
+2026-04-25 21:17:48,239 - INFO - RUNNING FP-GROWTH FOR SEGMENT 2
+2026-04-25 21:17:48,239 - INFO - ========================================
+2026-04-25 21:17:48,251 - INFO - Total multi-category orders in Segment 2: 176
+2026-04-25 21:17:48,257 - INFO - Rules found: 70
+2026-04-25 21:17:48,261 - INFO - Saved segment 2 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_2_rules.csv
+2026-04-25 21:33:03,969 - INFO - Loading orders data...
+2026-04-25 21:33:04,149 - INFO - Loading segments data...
+2026-04-25 21:33:04,196 - INFO - Merging orders with segments...
+2026-04-25 21:33:04,245 - INFO - Total merged items: 100285
+2026-04-25 21:33:04,255 - INFO - 
+========================================
+2026-04-25 21:33:04,255 - INFO - RUNNING FP-GROWTH FOR SEGMENT 0
+2026-04-25 21:33:04,255 - INFO - ========================================
+2026-04-25 21:33:04,281 - INFO - Total multi-category orders in Segment 0: 188
+2026-04-25 21:33:04,289 - INFO - Rules found (count >= 2): 16
+2026-04-25 21:33:04,293 - INFO - Saved segment 0 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_0_rules.csv
+2026-04-25 21:33:04,300 - INFO - 
+========================================
+2026-04-25 21:33:04,300 - INFO - RUNNING FP-GROWTH FOR SEGMENT 1
+2026-04-25 21:33:04,300 - INFO - ========================================
+2026-04-25 21:33:04,326 - INFO - Total multi-category orders in Segment 1: 416
+2026-04-25 21:33:04,336 - INFO - Rules found (count >= 2): 20
+2026-04-25 21:33:04,338 - INFO - Saved segment 1 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_1_rules.csv
+2026-04-25 21:33:04,343 - INFO - 
+========================================
+2026-04-25 21:33:04,343 - INFO - RUNNING FP-GROWTH FOR SEGMENT 2
+2026-04-25 21:33:04,343 - INFO - ========================================
+2026-04-25 21:33:04,353 - INFO - Total multi-category orders in Segment 2: 176
+2026-04-25 21:33:04,360 - INFO - Rules found (count >= 2): 14
+2026-04-25 21:33:04,361 - INFO - Saved segment 2 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_2_rules.csv
+2026-04-25 21:46:55,245 - INFO - Loading orders data...
+2026-04-25 21:46:55,427 - INFO - Loading segments data...
+2026-04-25 21:46:55,474 - INFO - Merging orders with segments...
+2026-04-25 21:46:55,522 - INFO - Total merged items: 100285
+2026-04-25 21:46:55,531 - INFO - 
+========================================
+2026-04-25 21:46:55,531 - INFO - RUNNING FP-GROWTH FOR SEGMENT 0
+2026-04-25 21:46:55,532 - INFO - ========================================
+2026-04-25 21:46:55,557 - INFO - Total multi-category orders in Segment 0: 188
+2026-04-25 21:46:55,560 - INFO - Dynamic min_support for Segment 0: 0.0160 (requires >= 3 orders)
+2026-04-25 21:46:55,563 - INFO - Rules found: 10
+2026-04-25 21:46:55,565 - INFO - Saved segment 0 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_0_rules.csv
+2026-04-25 21:46:55,573 - INFO - 
+========================================
+2026-04-25 21:46:55,573 - INFO - RUNNING FP-GROWTH FOR SEGMENT 1
+2026-04-25 21:46:55,573 - INFO - ========================================
+2026-04-25 21:46:55,595 - INFO - Total multi-category orders in Segment 1: 416
+2026-04-25 21:46:55,602 - INFO - Dynamic min_support for Segment 1: 0.0072 (requires >= 3 orders)
+2026-04-25 21:46:55,606 - INFO - Rules found: 17
+2026-04-25 21:46:55,608 - INFO - Saved segment 1 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_1_rules.csv
+2026-04-25 21:46:55,613 - INFO - 
+========================================
+2026-04-25 21:46:55,613 - INFO - RUNNING FP-GROWTH FOR SEGMENT 2
+2026-04-25 21:46:55,613 - INFO - ========================================
+2026-04-25 21:46:55,623 - INFO - Total multi-category orders in Segment 2: 176
+2026-04-25 21:46:55,627 - INFO - Dynamic min_support for Segment 2: 0.0170 (requires >= 3 orders)
+2026-04-25 21:46:55,630 - INFO - Rules found: 10
+2026-04-25 21:46:55,632 - INFO - Saved segment 2 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_2_rules.csv
+2026-04-26 02:09:57,639 - INFO - Loading orders data...
+2026-04-26 02:09:57,816 - INFO - Loading segments data...
+2026-04-26 02:09:57,866 - INFO - Merging orders with segments...
+2026-04-26 02:09:57,919 - INFO - Total merged items: 100285
+2026-04-26 02:09:57,928 - INFO - 
+========================================
+2026-04-26 02:09:57,928 - INFO - RUNNING FP-GROWTH FOR SEGMENT 0
+2026-04-26 02:09:57,928 - INFO - ========================================
+2026-04-26 02:09:57,952 - INFO - Total multi-category orders in Segment 0: 188
+2026-04-26 02:09:57,956 - INFO - Dynamic min_support for Segment 0: 0.0160 (requires >= 3 orders)
+2026-04-26 02:09:57,959 - INFO - Rules found: 10
+2026-04-26 02:09:57,963 - INFO - Saved segment 0 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_0_rules.csv
+2026-04-26 02:09:57,969 - INFO - 
+========================================
+2026-04-26 02:09:57,969 - INFO - RUNNING FP-GROWTH FOR SEGMENT 1
+2026-04-26 02:09:57,969 - INFO - ========================================
+2026-04-26 02:09:57,996 - INFO - Total multi-category orders in Segment 1: 416
+2026-04-26 02:09:58,001 - INFO - Dynamic min_support for Segment 1: 0.0072 (requires >= 3 orders)
+2026-04-26 02:09:58,005 - INFO - Rules found: 17
+2026-04-26 02:09:58,008 - INFO - Saved segment 1 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_1_rules.csv
+2026-04-26 02:09:58,014 - INFO - 
+========================================
+2026-04-26 02:09:58,014 - INFO - RUNNING FP-GROWTH FOR SEGMENT 2
+2026-04-26 02:09:58,014 - INFO - ========================================
+2026-04-26 02:09:58,025 - INFO - Total multi-category orders in Segment 2: 176
+2026-04-26 02:09:58,029 - INFO - Dynamic min_support for Segment 2: 0.0170 (requires >= 3 orders)
+2026-04-26 02:09:58,031 - INFO - Rules found: 10
+2026-04-26 02:09:58,035 - INFO - Saved segment 2 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_2_rules.csv
+2026-04-26 02:34:46,499 - INFO - Loading orders data...
+2026-04-26 02:34:46,690 - INFO - Loading segments data...
+2026-04-26 02:34:46,739 - INFO - Merging orders with segments...
+2026-04-26 02:34:46,786 - INFO - Total merged items: 100285
+2026-04-26 02:34:46,797 - INFO - 
+========================================
+2026-04-26 02:34:46,797 - INFO - RUNNING FP-GROWTH FOR SEGMENT 0
+2026-04-26 02:34:46,797 - INFO - ========================================
+2026-04-26 02:34:46,824 - INFO - Total multi-category orders in Segment 0: 188
+2026-04-26 02:34:46,828 - INFO - Dynamic min_support for Segment 0: 0.0160 (requires >= 3 orders)
+2026-04-26 02:34:46,832 - INFO - Rules found: 10
+2026-04-26 02:34:46,835 - INFO - Saved segment 0 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_0_rules.csv
+2026-04-26 02:34:46,841 - INFO - 
+========================================
+2026-04-26 02:34:46,841 - INFO - RUNNING FP-GROWTH FOR SEGMENT 1
+2026-04-26 02:34:46,841 - INFO - ========================================
+2026-04-26 02:34:46,863 - INFO - Total multi-category orders in Segment 1: 416
+2026-04-26 02:34:46,869 - INFO - Dynamic min_support for Segment 1: 0.0072 (requires >= 3 orders)
+2026-04-26 02:34:46,872 - INFO - Rules found: 17
+2026-04-26 02:34:46,874 - INFO - Saved segment 1 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_1_rules.csv
+2026-04-26 02:34:46,880 - INFO - 
+========================================
+2026-04-26 02:34:46,880 - INFO - RUNNING FP-GROWTH FOR SEGMENT 2
+2026-04-26 02:34:46,880 - INFO - ========================================
+2026-04-26 02:34:46,891 - INFO - Total multi-category orders in Segment 2: 176
+2026-04-26 02:34:46,893 - INFO - Dynamic min_support for Segment 2: 0.0170 (requires >= 3 orders)
+2026-04-26 02:34:46,896 - INFO - Rules found: 10
+2026-04-26 02:34:46,898 - INFO - Saved segment 2 rules to C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase4\outputs\segment_2_rules.csv

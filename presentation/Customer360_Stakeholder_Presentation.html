@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer 360: Segment-Specific Product Associations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .slide {
+            min-height: 100vh;
+            padding: 60px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-bottom: 3px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide:last-child {
+            border-bottom: none;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 50%, #2b6cb0 100%);
+            color: white;
+            text-align: center;
+            align-items: center;
+        }
+
+        .title-slide h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .title-slide .meta {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-top: 60px;
+        }
+
+        .title-slide .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Content Slides */
+        h2 {
+            font-size: 2.4rem;
+            color: #1a365d;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #4299e1;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: #2c5282;
+            margin: 25px 0 15px 0;
+        }
+
+        p,
+        li {
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+        }
+
+        ul {
+            margin-left: 30px;
+        }
+
+        /* Highlight Boxes */
+        .insight-box {
+            background: #ebf8ff;
+            border-left: 5px solid #4299e1;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .insight-box h4 {
+            color: #2b6cb0;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .warning-box {
+            background: #fffaf0;
+            border-left: 5px solid #ed8936;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #f0fff4;
+            border-left: 5px solid #48bb78;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .metric-card {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .metric-card .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2b6cb0;
+            display: block;
+        }
+
+        .metric-card .label {
+            font-size: 0.95rem;
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        /* Two Column */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .two-col img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Segment Cards */
+        .segment-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .segment-card {
+            border-radius: 12px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .seg-0 {
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+        }
+
+        .seg-1 {
+            background: linear-gradient(135deg, #3182ce, #2c5282);
+        }
+
+        .seg-2 {
+            background: linear-gradient(135deg, #38a169, #2f855a);
+        }
+
+        .segment-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .segment-card .big-num {
+            font-size: 3rem;
+            font-weight: 800;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .segment-card .detail {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+
+        /* Recommendation Cards */
+        .rec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .rec-card {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 30px;
+            border-top: 4px solid #4299e1;
+        }
+
+        .rec-card h4 {
+            color: #2b6cb0;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        /* Images */
+        .slide-image {
+            width: 100%;
+            max-height: 600px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Footer */
+        .slide-footer {
+            margin-top: auto;
+            padding-top: 30px;
+            font-size: 0.9rem;
+            color: #a0aec0;
+            text-align: right;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1rem;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #edf2f7;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        /* Print */
+        @media print {
+            .slide {
+                page-break-after: always;
+                min-height: auto;
+            }
+
+            .slide:last-child {
+                page-break-after: auto;
+            }
+        }
+    </style>
+    <base target="_blank">
+</head>
+
+<body>
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide title-slide">
+        <div class="badge">Data Mining Project</div>
+        <div class="badge">Customer 360</div>
+        <div class="badge">Olist E-Commerce</div>
+        <h1>Customer 360°</h1>
+        <div class="subtitle">How Product Associations Differ Across Customer Segments</div>
+        <p style="font-size: 1.2rem; max-width: 700px; margin-top: 20px;">
+            A comprehensive analysis of 100K+ orders from the Olist Brazilian E-Commerce dataset,
+            combining association rule mining with K-Prototypes customer segmentation.
+        </p>
+        <div class="meta">
+            <p><strong>Team:</strong> Saad Nasir · Ibrahim Moeed · Abdullah Azmat</p>
+            <p><strong>Dataset Period:</strong> 2016 – 2018 | <strong>Customers:</strong> 93,398 |
+                <strong>Orders:</strong> 100,196</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Executive Summary -->
+    <div class="slide">
+        <h2>📋 Executive Summary</h2>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <span class="number">3</span>
+                <span class="label">Customer Segments</span>
+            </div>
+            <div class="metric-card">
+                <span class="number">25</span>
+                <span class="label">Cross-Category Rules</span>
+            </div>
+            <div class="metric-card">
+                <span class="number">37</span>
+                <span class="label">Segment-Specific Rules</span>
+            </div>
+            <div class="metric-card">
+                <span class="number">41x</span>
+                <span class="label">Max Rule Lift</span>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <h4>💡 Key Finding</h4>
+            <p><strong>Product associations are NOT universal.</strong> The strongest cross-selling opportunities vary
+                dramatically by customer segment.
+                High-value inactive customers (Segment 1) show the strongest association signals (lift up to 18x), while
+                low-value churned customers (Segment 0)
+                exhibit weaker but distinct patterns. <strong>Zero rules overlap across all three segments</strong>,
+                proving that a one-size-fits-all recommendation strategy is suboptimal.</p>
+        </div>
+
+        <div class="success-box">
+            <h4>🎯 Business Impact</h4>
+            <p>This analysis enables <strong>segment-specific cross-selling strategies</strong>, personalized bundle
+                recommendations, and targeted reactivation campaigns
+                rather than generic product suggestions. By treating customer segments as distinct markets, Olist can
+                improve conversion rates and average order value simultaneously.</p>
+        </div>
+
+        <div class="slide-footer">Customer 360 — Executive Summary</div>
+    </div>
+
+    <!-- SLIDE 3: Business Question -->
+    <div class="slide">
+        <h2>🎯 The Business Question</h2>
+
+        <div style="text-align: center; padding: 40px; background: #f7fafc; border-radius: 12px; margin: 30px 0;">
+            <p style="font-size: 2rem; font-weight: 300; font-style: italic; color: #2c5282;">
+                "How do product associations differ across customer segments?"
+            </p>
+        </div>
+
+        <h3>Why This Matters</h3>
+        <div class="two-col">
+            <div>
+                <ul>
+                    <li><strong>99.2%</strong> of Olist orders are single-category purchases — a massive untapped
+                        cross-selling opportunity</li>
+                    <li>Only <strong>0.8%</strong> of orders contain multiple categories</li>
+                    <li>Generic recommendations ignore behavioral differences between high-value and low-value customers
+                    </li>
+                    <li>Understanding segment-specific affinities allows precision targeting</li>
+                </ul>
+            </div>
+            <div>
+                <img src="stakeholder_summary_charts.png" alt="Summary Dashboard"
+                    style="width:100%; border-radius:8px;">
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <h4>⚠️ The Challenge</h4>
+            <p>Olist operates as a <strong>specialized store</strong> — customers typically buy what they came for and
+                leave.
+                Breaking this pattern requires understanding <em>which</em> products to bundle <em>for whom</em>.</p>
+        </div>
+
+        <div class="slide-footer">Customer 360 — Business Question</div>
+    </div>
+
+    <!-- SLIDE 4: Methodology -->
+    <div class="slide">
+        <h2>🔬 Our Approach: 4-Phase Pipeline</h2>
+
+        <table>
+            <tr>
+                <th>Phase</th>
+                <th>Objective</th>
+                <th>Technique</th>
+                <th>Output</th>
+            </tr>
+            <tr>
+                <td><strong>Phase 1</strong></td>
+                <td>Data Preparation & EDA</td>
+                <td>PostgreSQL, Pandas, Feature Engineering</td>
+                <td>Clean dataset + RFM features</td>
+            </tr>
+            <tr>
+                <td><strong>Phase 2</strong></td>
+                <td>Association Rule Mining</td>
+                <td>Apriori + FP-Growth (mlxtend)</td>
+                <td>25 global cross-category rules</td>
+            </tr>
+            <tr>
+                <td><strong>Phase 3</strong></td>
+                <td>Customer Segmentation</td>
+                <td>K-Prototypes (kmodes)</td>
+                <td>3 behavioral segments (K=3)</td>
+            </tr>
+            <tr style="background: #ebf8ff;">
+                <td><strong>Phase 4</strong></td>
+                <td>Segment Integration</td>
+                <td>Per-segment ARM analysis</td>
+                <td>37 segment-specific rules</td>
+            </tr>
+        </table>
+
+        <div class="insight-box">
+            <h4>🔍 Validation Strategy</h4>
+            <p>We ran <strong>Apriori and FP-Growth independently</strong> for every analysis. Both algorithms produced
+                <strong>100% identical results</strong>,
+                confirming rule stability. All outputs passed integrity checks via VALIDATE_ALL_PHASES.py before
+                integration.</p>
+        </div>
+
+        <div class="slide-footer">Customer 360 — Methodology</div>
+    </div>
+
+    <!-- SLIDE 5: Phase 1 & 2 -->
+    <div class="slide">
+        <h2>🔗 Phase 2: Global Association Rules</h2>
+
+        <p style="font-size: 1.2rem; margin-bottom: 25px;">
+            Before segmenting, we mined cross-category associations across the entire customer base to establish
+            baseline product affinities.
+        </p>
+
+        <div class="two-col">
+            <div>
+                <h3>Top Global Rules</h3>
+                <table>
+                    <tr>
+                        <th>Antecedent → Consequent</th>
+                        <th>Lift</th>
+                        <th>Confidence</th>
+                    </tr>
+                    <tr>
+                        <td>Children's Clothing → Bags & Accessories</td>
+                        <td><strong>41.1x</strong></td>
+                        <td>100%</td>
+                    </tr>
+                    <tr>
+                        <td>General Books → Marketplace</td>
+                        <td><strong>26.0x</strong></td>
+                        <td>40%</td>
+                    </tr>
+                    <tr>
+                        <td>Audio Equipment → Watches & Gifts</td>
+                        <td><strong>19.5x</strong></td>
+                        <td>100%</td>
+                    </tr>
+                    <tr>
+                        <td>Fashion Shoes → Baby</td>
+                        <td>8.4x</td>
+                        <td>100%</td>
+                    </tr>
+                    <tr>
+                        <td>Luggage → Stationery</td>
+                        <td>7.9x</td>
+                        <td>33%</td>
+                    </tr>
+                </table>
+
+                <div class="warning-box">
+                    <h4>⚠️ The Problem with Global Rules</h4>
+                    <p>These rules average behavior across <em>all</em> customers. But do high-value customers follow
+                        the same patterns as churned ones?
+                        <strong>Phase 4 answers this definitively: they do not.</strong>
+                    </p>
+                </div>
+            </div>
+            <div>
+                <img src="stakeholder_summary_charts.png" alt="Global Rules" style="width:100%;">
+            </div>
+        </div>
+
+        <div class="slide-footer">Customer 360 — Global Association Rules</div>
+    </div>
+
+    <!-- SLIDE 6: Phase 3 Segments -->
+    <div class="slide">
+        <h2>👥 Phase 3: Customer Segments (K-Prototypes)</h2>
+
+        <p style="font-size: 1.2rem; margin-bottom: 25px;">
+            We clustered 93,398 customers using RFM features + geographic state. K-Prototypes handles mixed
+            numerical/categorical data.
+            Optimal K=3 was determined by Silhouette, Davies-Bouldin, Calinski-Harabasz consensus.
+        </p>
+
+        <div class="segment-grid">
+            <div class="segment-card seg-0">
+                <h4>Segment 0</h4>
+                <span class="big-num">41%</span>
+                <span class="detail">Low-Value, Churned</span>
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.3); margin: 15px 0;">
+                <span class="detail">Avg Spend: $52.89</span><br>
+                <span class="detail">Recency: 278 days</span><br>
+                <span class="detail">Repeat Rate: 2.2%</span>
+            </div>
+            <div class="segment-card seg-1">
+                <h4>Segment 1</h4>
+                <span class="big-num">41%</span>
+                <span class="detail">High-Value, Inactive</span>
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.3); margin: 15px 0;">
+                <span class="detail">Avg Spend: $226.57</span><br>
+                <span class="detail">Recency: 272 days</span><br>
+                <span class="detail">Repeat Rate: 3.7%</span>
+            </div>
+            <div class="segment-card seg-2">
+                <h4>Segment 2</h4>
+                <span class="big-num">18%</span>
+                <span class="detail">Recent & Active</span>
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.3); margin: 15px 0;">
+                <span class="detail">Avg Spend: $102.90</span><br>
+                <span class="detail">Recency: 70 days</span><br>
+                <span class="detail">Repeat Rate: 3.5%</span>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <h4>📊 Clustering Quality</h4>
+            <p><strong>Silhouette Score:</strong> 0.38 (Good) | <strong>Davies-Bouldin:</strong> 0.97 (Good) |
+                <strong>Calinski-Harabasz:</strong> 9,364</p>
+            <p>Segment 1 is the "sleeping giant" — highest spend but inactive. Segment 0 is price-sensitive and
+                disengaged. Segment 2 is the growth engine.</p>
+        </div>
+
+        <div class="slide-footer">Customer 360 — Customer Segmentation</div>
+    </div>
+
+    <!-- SLIDE 7: Phase 4 Core Insight -->
+    <div class="slide">
+        <h2>🎯 Phase 4: The Core Insight</h2>
+
+        <p style="font-size: 1.3rem; margin-bottom: 25px; color: #2c5282; font-weight: 600;">
+            We re-ran association rule mining independently within each segment. The results reveal dramatically
+            different cross-selling opportunities.
+        </p>
+
+        <img src="segment_rules_comparison.png" alt="Segment Rules Comparison" class="slide-image">
+
+        <div class="two-col">
+            <div class="insight-box">
+                <h4>🔴 Segment 0: Low-Value Churned</h4>
+                <ul>
+                    <li><strong>Top Rule:</strong> Construction Tools/Garden → Others (4.9x lift)</li>
+                    <li>Rules are weaker but show practical bundling potential</li>
+                    <li>"Others" category appears frequently — suggests broad, undifferentiated buying</li>
+                    <li>Best opportunity: <strong>volume bundles</strong> and discount-driven cross-sells</li>
+                </ul>
+            </div>
+            <div class="insight-box">
+                <h4>🔵 Segment 1: High-Value Inactive</h4>
+                <ul>
+                    <li><strong>Top Rule:</strong> Audio → Watches & Gifts (18.1x lift)</li>
+                    <li>Strongest overall signals — these customers have clear premium affinities</li>
+                    <li>Pet Shop → Others (7.8x) and Perfumery → Health/Beauty (5.6x)</li>
+                    <li>Best opportunity: <strong>premium bundles</strong> to reactivate high spenders</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="success-box">
+            <h4>🟢 Segment 2: Recent & Active</h4>
+            <ul>
+                <li><strong>Top Rule:</strong> Food → Health & Beauty (7.3x lift)</li>
+                <li>Highest confidence levels — these customers are actively exploring</li>
+                <li>Home Comfort → Bed/Bath/Table (4.3x) shows lifestyle-oriented purchasing</li>
+                <li>Best opportunity: <strong>category expansion</strong> to increase basket diversity</li>
+            </ul>
+        </div>
+
+        <div class="slide-footer">Customer 360 — Segment-Specific Rules</div>
+    </div>
+
+    <!-- SLIDE 8: Deep Dive -->
+    <div class="slide">
+        <h2>🔍 Deep Dive: Rule Overlap & Differences</h2>
+
+        <img src="stakeholder_summary_charts.png" alt="Rule Overlap Analysis" class="slide-image">
+
+        <div class="two-col">
+            <div>
+                <h3>Critical Finding: Zero Universal Rules</h3>
+                <p>Not a single association rule appears in all three segments. This means:</p>
+                <ul>
+                    <li>Global recommendations dilute signal strength</li>
+                    <li>Each segment behaves like a distinct market</li>
+                    <li>Personalization is not a "nice-to-have" — it's essential</li>
+                </ul>
+
+                <div class="warning-box">
+                    <h4>⚠️ What This Means for Olist</h4>
+                    <p>Current cross-selling (if any) likely uses global bestseller logic.
+                        Our analysis proves that recommending "Bags" to a Segment 0 customer because they bought
+                        Children's Clothing
+                        (global top rule, 41x lift) will <strong>not work</strong> for Segments 1 or 2, where that
+                        pattern doesn't exist.</p>
+                </div>
+            </div>
+            <div>
+                <h3>Segment Rule Profiles</h3>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Seg 0</th>
+                        <th>Seg 1</th>
+                        <th>Seg 2</th>
+                    </tr>
+                    <tr>
+                        <td>Rules Found</td>
+                        <td>10</td>
+                        <td>17</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>Avg Lift</td>
+                        <td>3.2x</td>
+                        <td>4.0x</td>
+                        <td>3.1x</td>
+                    </tr>
+                    <tr>
+                        <td>Max Lift</td>
+                        <td>4.9x</td>
+                        <td>18.1x</td>
+                        <td>7.3x</td>
+                    </tr>
+                    <tr>
+                        <td>Avg Confidence</td>
+                        <td>42%</td>
+                        <td>51%</td>
+                        <td>58%</td>
+                    </tr>
+                    <tr>
+                        <td>Unique Rules</td>
+                        <td>6</td>
+                        <td>10</td>
+                        <td>6</td>
+                    </tr>
+                </table>
+
+                <div class="insight-box">
+                    <h4>💡 Insight</h4>
+                    <p>Segment 1 has the most rules and highest lift, but Segment 2 has the highest confidence.
+                        <strong>Segment 2 customers are predictable; Segment 1 customers are valuable.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-footer">Customer 360 — Rule Overlap Analysis</div>
+    </div>
+
+    <!-- SLIDE 9: Recommendations -->
+    <div class="slide">
+        <h2>🚀 Strategic Recommendations</h2>
+
+        <div class="rec-grid">
+            <div class="rec-card">
+                <h4>1. Segment-Specific Email Campaigns</h4>
+                <p><strong>Segment 1 (High-Value Inactive):</strong> Send "Audio + Watches & Gifts" bundle offers.
+                    The 18x lift signal is strongest here. Use premium positioning to reactivate $227 AOV customers.</p>
+            </div>
+            <div class="rec-card">
+                <h4>2. Homepage Personalization</h4>
+                <p><strong>Segment 2 (Recent & Active):</strong> Cross-merchandise Food with Health & Beauty.
+                    These customers are exploring — capture them with lifestyle bundles before they churn.</p>
+            </div>
+            <div class="rec-card">
+                <h4>3. Discount Bundles for Price-Sensitive</h4>
+                <p><strong>Segment 0 (Low-Value):</strong> Offer "Construction/Garden + Others" volume deals.
+                    Keep margins thin but increase basket size through necessity bundling.</p>
+            </div>
+            <div class="rec-card">
+                <h4>4. A/B Test Global vs. Segment Rules</h4>
+                <p>Run a controlled experiment: show global recommendations to 50% of users and segment-specific rules
+                    to 50%.
+                    We predict 15-25% lift in cross-category conversion for the personalized group.</p>
+            </div>
+            <div class="rec-card">
+                <h4>5. Reactivate the Sleeping Giant</h4>
+                <p>Segment 1 represents 41% of the base with 4x the spend of Segment 0.
+                    A dedicated win-back campaign using their specific affinities (Audio, Pet, Perfumery) should be the
+                    #1 priority.</p>
+            </div>
+            <div class="rec-card">
+                <h4>6. Operationalize the Pipeline</h4>
+                <p>Deploy the K-Prototypes model + per-segment ARM as a monthly batch job.
+                    As customer behavior shifts, rules should be refreshed. Integrate with CRM for automated targeting.
+                </p>
+            </div>
+        </div>
+
+        <div class="success-box">
+            <h4>✅ Expected Outcomes</h4>
+            <p>If implemented, we project: <strong>+15% cross-sell conversion</strong> (Segment 2), <strong>+20%
+                    reactivation rate</strong> (Segment 1),
+                and <strong>+10% AOV</strong> (Segment 0) within one quarter of deployment.</p>
+        </div>
+
+        <div class="slide-footer">Customer 360 — Strategic Recommendations</div>
+    </div>
+
+    <!-- SLIDE 10: Appendix -->
+    <div class="slide">
+        <h2>📎 Appendix: Technical Notes</h2>
+
+        <div class="two-col">
+            <div>
+                <h3>Data Pipeline</h3>
+                <ul>
+                    <li><strong>Source:</strong> 8 raw Olist CSVs (customers, orders, items, products, translations)
+                    </li>
+                    <li><strong>Database:</strong> PostgreSQL 17.6 with SQLAlchemy/psycopg2</li>
+                    <li><strong>Cleaning:</strong> Null handling, outlier capping, invalid price removal</li>
+                    <li><strong>Features:</strong> RFM (Recency, Frequency, Monetary) + behavioral flags + state</li>
+                    <li><strong>Scaling:</strong> Log transform + RobustScaler for skewed monetary features</li>
+                </ul>
+
+                <h3>Association Rule Mining</h3>
+                <ul>
+                    <li><strong>Algorithms:</strong> Apriori + FP-Growth (mlxtend)</li>
+                    <li><strong>Support threshold:</strong> 0.0025 (cross-category), adaptive per segment</li>
+                    <li><strong>Confidence threshold:</strong> 0.3 minimum</li>
+                    <li><strong>Validation:</strong> 100% convergence between both algorithms</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Segmentation</h3>
+                <ul>
+                    <li><strong>Algorithm:</strong> K-Prototypes (kmodes library)</li>
+                    <li><strong>Sample:</strong> 15% stratified sample for training, full prediction</li>
+                    <li><strong>K selection:</strong> Elbow + Silhouette + Davies-Bouldin + Calinski-Harabasz consensus
+                    </li>
+                    <li><strong>Validation:</strong> 95%+ ID overlap between features and segments</li>
+                </ul>
+
+                <h3>Phase 4 Integration</h3>
+                <ul>
+                    <li>Joined customer_segments_k3.csv with master_cleaned.csv</li>
+                    <li>Filtered transactions per segment</li>
+                    <li>Re-ran ARM independently per segment</li>
+                    <li>Compared rule sets across segments for overlap analysis</li>
+                </ul>
+
+                <div class="insight-box">
+                    <h4>📁 Project Files</h4>
+                    <p>All code, data, and outputs are organized in the DM_project/ directory.
+                        Run <code>python RUN_PROJECT_COMPLETE.py</code> for a full project summary.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide-footer">Customer 360 — Technical Appendix</div>
+    </div>
+
+    <!-- SLIDE 11: Thank You -->
+    <div class="slide title-slide">
+        <h1>Thank You</h1>
+        <div class="subtitle">Questions & Discussion</div>
+        <div style="margin-top: 40px; font-size: 1.1rem; opacity: 0.9;">
+            <p><strong>Team:</strong> Saad Nasir (23L-2625) · Ibrahim Moeed (23L-2602) · Abdullah Azmat (23L-2611)</p>
+            <p style="margin-top: 15px;">Full analysis available in the Customer 360 Data Mining Project repository</p>
+        </div>
+        <div style="margin-top: 50px;">
+            <div class="badge">Phase 1 ✅</div>
+            <div class="badge">Phase 2 ✅</div>
+            <div class="badge">Phase 3 ✅</div>
+            <div class="badge">Phase 4 ✅</div>
+        </div>
+    </div>
+
+</body>
+
+</html>

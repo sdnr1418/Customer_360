@@ -56,7 +56,7 @@ NUMERICAL FEATURES (6):
   6. avg_item_price - Average price per item
 
 CATEGORICAL FEATURES (3):
-  7. recency_quartile - Recency binned into 4 tiers (very_recent → inactive)
+  7. recency_quartile - Recency binned into 4 tiers (very_recent -> inactive)
   8. preferred_category - Most frequently purchased product category (top 15+ others)
   9. customer_state - Geographic location (27 Brazilian states)
 
@@ -103,7 +103,7 @@ def run_numerical_features_eda(df):
         print(f"\n{col.upper()}:")
         print(f"  - Skewness: {skew:.3f} [{skew_level}]")
         print(f"  - Outliers: {len(outliers):,} ({outlier_pct:.2f}% of data)")
-        print(f"  - Range: ${df_num[col].min():.2f} → ${df_num[col].max():.2f}")
+        print(f"  - Range: ${df_num[col].min():.2f} -> ${df_num[col].max():.2f}")
         print(f"  - Action: {'LOG TRANSFORM NEEDED' if abs(skew) > 0.8 else 'Monitor during scaling'}")
     
     # Create visualization: Distributions (before preprocessing)
@@ -619,9 +619,9 @@ VISUALIZATIONS SAVED (10 PNG files):
   10. 10_category_spending_heatmap.png - Category preferences by recency tier
 
 NEXT STEPS:
-  → Phase 1: Run feature_scaling.py for preprocessing (log transform + RobustScaler)
-  → Phase 2: Transition to association rule mining
-  → Phase 3: Execute K-Prototype clustering with scaled features
+  -> Phase 1: Run feature_scaling.py for preprocessing (log transform + RobustScaler)
+  -> Phase 2: Transition to association rule mining
+  -> Phase 3: Execute K-Prototype clustering with scaled features
 """)
 
 

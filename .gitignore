@@ -1,14 +1,17 @@
 # --- DATA FILES ---
 # Ignore the data folder where you'll store CSVs
-# data/
+data/
 # Ignore any loose CSV files in the root
-# *.csv
-*.zip
-*.rar
+*.csv
+# But keep rules in phase4
+!phase4/outputs/*.csv
+# Keep segment profiles if needed
+!data/segment_profiles_k3.csv
 
 # --- RESTRICTED FOLDERS ---
 # Do not push sensitive or temporary files
 DO_NOT_PUSH/
+ibi_phase4/
 
 # --- PYTHON BAGGAGE ---
 # Ignore the virtual environment

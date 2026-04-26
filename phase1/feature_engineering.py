@@ -31,7 +31,7 @@ def engineer_customer_features(df):
     - Keep num_orders as feature (frequency variance, not binary)
     
     P1 Priority Fixes (for Phase 3 quality):
-    - Increase top_n categories from 10→15 (Phase 2 association mining)
+    - Increase top_n categories from 10->15 (Phase 2 association mining)
     - Add recency_quartile (purchase timing patterns)
     """
     print("\n--- Engineering Customer Features (Purchase Behavior Focus) ---")
@@ -58,7 +58,7 @@ def engineer_customer_features(df):
     }
     with open('data/feature_engineering_metadata.json', 'w') as f:
         json.dump(threshold_metadata, f, indent=2)
-    print(f"✓ Saved feature engineering metadata to data/feature_engineering_metadata.json")
+    print(f"[OK] Saved feature engineering metadata to data/feature_engineering_metadata.json")
     
     # Aggregate by customer - include recency calculation
     customer_agg = df.groupby('customer_unique_id').agg({
@@ -153,14 +153,14 @@ def engineer_customer_features(df):
     
     customer_agg = customer_agg[final_features]
     
-    print(f"\n✓ Features engineered for {len(customer_agg)} unique customers")
-    print(f"✓ Feature set: {customer_agg.shape[1]} features (P0+P1 fixes applied)")
-    print(f"✓ Continuous features: num_orders, monetary, avg_order_value, total_items_bought, avg_item_price, recency")
-    print(f"✓ Categorical features: recency_quartile, preferred_category (top 15), customer_state")
-    print(f"✓ Binary flags: is_repeat_customer, is_high_value, is_sp")
-    print(f"✓ High-value customers (top 5%): {customer_agg['is_high_value'].sum():,}")
-    print(f"✓ Repeat customers: {customer_agg['is_repeat_customer'].sum():,}")
-    print(f"✓ São Paulo customers: {customer_agg['is_sp'].sum():,}")
+    print(f"\n[OK] Features engineered for {len(customer_agg)} unique customers")
+    print(f"[OK] Feature set: {customer_agg.shape[1]} features (P0+P1 fixes applied)")
+    print(f"[OK] Continuous features: num_orders, monetary, avg_order_value, total_items_bought, avg_item_price, recency")
+    print(f"[OK] Categorical features: recency_quartile, preferred_category (top 15), customer_state")
+    print(f"[OK] Binary flags: is_repeat_customer, is_high_value, is_sp")
+    print(f"[OK] High-value customers (top 5%): {customer_agg['is_high_value'].sum():,}")
+    print(f"[OK] Repeat customers: {customer_agg['is_repeat_customer'].sum():,}")
+    print(f"[OK] São Paulo customers: {customer_agg['is_sp'].sum():,}")
     
     return customer_agg
 
@@ -176,15 +176,15 @@ def save_engineered_features(df):
     
     df_indexed.to_sql('customer_features', engine, if_exists='replace', index=True)
     df_indexed.to_csv('data/customer_features.csv', index=True)
-    print("✓ Saved to PostgreSQL table 'customer_features' (with customer_unique_id index)")
-    print("✓ Saved to data/customer_features.csv (with customer_unique_id index)")
-    print("✓ Metadata saved to data/feature_engineering_metadata.json")
+    print("[OK] Saved to PostgreSQL table 'customer_features' (with customer_unique_id index)")
+    print("[OK] Saved to data/customer_features.csv (with customer_unique_id index)")
+    print("[OK] Metadata saved to data/feature_engineering_metadata.json")
 
 if __name__ == "__main__":
     # 1. Load cleaned data
     print("Loading cleaned data from PostgreSQL...")
     cleaned_df = pd.read_sql("SELECT * FROM master_cleaned", engine)
-    print(f"   → Loaded {len(cleaned_df):,} transaction records")
+    print(f"   -> Loaded {len(cleaned_df):,} transaction records")
     
     # 2. Engineer features
     customer_features = engineer_customer_features(cleaned_df)

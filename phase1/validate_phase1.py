@@ -393,7 +393,7 @@ def save_validation_report(data_dict, validations):
             f.write("### Stage 1: Data Consolidation (preprocessing.py)\n")
             val = validations['consolidation']
             f.write(f"- Columns validated: {val['passed']}/{val['passed'] + val['failed']}\n")
-            f.write(f"- Status: {'✓ PASS' if val['failed'] == 0 else '✗ FAIL'}\n\n")
+            f.write(f"- Status: {'[OK] PASS' if val['failed'] == 0 else '[FAIL] FAIL'}\n\n")
         
         # Stage 2: Cleaning
         if 'cleaning' in validations:
@@ -403,7 +403,7 @@ def save_validation_report(data_dict, validations):
             f.write(f"- Invalid prices removed: {val['metrics']['invalid_prices']:,}\n")
             f.write(f"- Duplicate rows removed: {val['metrics']['duplicates']}\n")
             f.write(f"- Data retention: {val['metrics']['retention_rate']:.1f}%\n")
-            f.write(f"- Status: {'✓ PASS' if val['metrics']['nulls_total'] == 0 else '⚠ REVIEW'}\n\n")
+            f.write(f"- Status: {'[OK] PASS' if val['metrics']['nulls_total'] == 0 else '⚠ REVIEW'}\n\n")
         
         # Stage 3: Feature Engineering
         if 'features' in validations:
@@ -418,7 +418,7 @@ def save_validation_report(data_dict, validations):
             f.write(f"- São Paulo customers: {metrics['sp_customers']:,} ({metrics['sp_customers']/metrics['total_customers']*100:.1f}%)\n")
             f.write(f"- P0 Fixes Applied: Traceability (customer_unique_id), Full state detail\n")
             f.write(f"- P1 Fixes Applied: Recency quartile, 15 categories for Phase 2\n")
-            f.write(f"- Status: {'✓ PASS' if metrics['missing_features'] == 0 else '✗ FAIL'}\n\n")
+            f.write(f"- Status: {'[OK] PASS' if metrics['missing_features'] == 0 else '[FAIL] FAIL'}\n\n")
         
         # Stage 4: Scaling
         if 'scaling' in validations:
@@ -427,7 +427,7 @@ def save_validation_report(data_dict, validations):
             f.write(f"- K-Means dataset: {val['datasets']['kmeans']['rows']:,} rows × {val['datasets']['kmeans']['columns']} features (numerical only)\n")
             f.write(f"- K-Prototype dataset (PRIMARY): {val['datasets']['kprototype']['rows']:,} rows × {val['datasets']['kprototype']['columns']} features (mixed-type)\n")
             f.write(f"- Gower dataset (SECONDARY): {val['datasets']['gower']['rows']:,} rows × {val['datasets']['gower']['columns']} features (mixed-type, robust)\n")
-            f.write(f"- Status: ✓ PASS (all datasets aligned)\n\n")
+            f.write(f"- Status: [OK] PASS (all datasets aligned)\n\n")
         
         # Files Generated
         f.write("## Output Files Generated\n\n")
@@ -513,7 +513,7 @@ def main():
         
         if not data_dict:
             print("\n[FAIL] No data files found. Please run Phase 1 pipeline first.")
-            print("  Required: preprocessing.py → cleaning.py → feature_engineering.py → feature_scaling.py")
+            print("  Required: preprocessing.py -> cleaning.py -> feature_engineering.py -> feature_scaling.py")
             return
         
         # Initialize validations tracking
@@ -549,21 +549,21 @@ def main():
         print("="*80)
         
         if 'consolidation' in validations:
-            print(f"Stage 1 - Consolidation: {'✓ PASS' if validations['consolidation']['failed'] == 0 else '✗ FAIL'}")
+            print(f"Stage 1 - Consolidation: {'[OK] PASS' if validations['consolidation']['failed'] == 0 else '[FAIL] FAIL'}")
         
         if 'cleaning' in validations:
-            status = '✓ PASS' if validations['cleaning']['metrics']['nulls_total'] == 0 else '⚠ REVIEW'
+            status = '[OK] PASS' if validations['cleaning']['metrics']['nulls_total'] == 0 else '⚠ REVIEW'
             print(f"Stage 2 - Cleaning: {status}")
         
         if 'features' in validations:
-            status = '✓ PASS' if validations['features']['metrics']['missing_features'] == 0 else '✗ FAIL'
+            status = '[OK] PASS' if validations['features']['metrics']['missing_features'] == 0 else '[FAIL] FAIL'
             print(f"Stage 3 - Feature Engineering: {status}")
         
         if 'scaling' in validations:
-            print(f"Stage 4 - Feature Scaling: ✓ PASS")
+            print(f"Stage 4 - Feature Scaling: [OK] PASS")
         
         print("\n" + "="*80)
-        print("✓ PHASE 1 VALIDATION COMPLETE")
+        print("[OK] PHASE 1 VALIDATION COMPLETE")
         print("="*80)
         print("\nAll pipeline stages validated. Ready for Phase 2 and Phase 3.")
         print(f"Validation report: PHASE1_VALIDATION_REPORT.md")

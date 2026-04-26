@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 VALIDATE_ALL_PHASES.py
 ============================================================================
-Pre-Phase 4 validation: checks all outputs from Phases 1, 2, and 3.
+Complete Project Validation: checks all outputs from Phases 1, 2, 3, and 4.
 Does NOT re-run anything -- purely reads and validates existing files.
 
 Run with:
@@ -251,6 +249,36 @@ for chart in expected_charts:
 
 
 # ============================================================================
+# PHASE 4 VALIDATION
+# ============================================================================
+
+section("PHASE 4 -- Integration & Insights")
+
+P4_OUT = ROOT / "phase4" / "outputs"
+check("phase4/outputs/ exists", P4_OUT.exists())
+
+# Segment rules
+for i in range(3):
+    fname = f"segment_{i}_rules.csv"
+    fpath = P4_OUT / fname
+    if fpath.exists():
+        df_p4 = pd.read_csv(fpath)
+        check(f"{fname} loaded", True, "({} rules)".format(len(df_p4)))
+        for col in ["support", "confidence", "lift"]:
+            check(f"  column '{col}' present", col in df_p4.columns)
+    else:
+        check(fname, False, "(NOT FOUND)", warn_only=True)
+
+# Phase 4 visualizations
+p4_viz = P4_OUT / "visualizations"
+p4_pngs = list(p4_viz.glob("*.png")) if p4_viz.exists() else []
+check("Phase 4 visualizations: >= 1 PNGs", len(p4_pngs) >= 1, "({} files)".format(len(p4_pngs)))
+
+# Phase 4 strategic insights
+p4_insights = ROOT / "phase4" / "PHASE_4_INSIGHTS.md"
+check("PHASE_4_INSIGHTS.md exists", p4_insights.exists())
+
+# ============================================================================
 # CROSS-PHASE CONSISTENCY
 # ============================================================================
 
@@ -272,9 +300,9 @@ except Exception as e:
 try:
     rules = pd.read_csv(P2_CROSS / "cross_category_rules.csv")
     segs  = pd.read_csv(DATA / "customer_segments_k3.csv")
-    check("Phase 2 rules + Phase 3 segments ready for Phase 4 integration",
+    check("Phase 2 rules + Phase 3 segments used for Phase 4",
           len(rules) > 0 and len(segs) > 0,
-          "({} rules, {:,} segmented customers)".format(len(rules), len(segs)))
+          "({} global rules, {:,} segmented customers)".format(len(rules), len(segs)))
 except Exception as e:
     check("Phase 2 + Phase 3 outputs available for integration", False, str(e))
 
@@ -296,15 +324,15 @@ elif warnings:
     print("\n  {} Minor warnings (non-blocking):".format(WARN))
     for w in warnings:
         print("       - " + w)
-    print("\n  [READY] All critical checks passed -- safe to proceed to Phase 4.")
+    print("\n  [COMPLETE] Project validation finished with some warnings.")
 else:
-    print("\n  {} ALL CHECKS PASSED -- ready to proceed to Phase 4!".format(PASS))
+    print("\n  {} ALL CHECKS PASSED -- Project Customer 360 is complete!".format(PASS))
     print("""
-  Phase 4 goal: Segment-specific association rule mining
-    - Filter master_cleaned.csv by segment labels (customer_segments_k3.csv)
-    - Re-run Apriori/FP-Growth per segment (Segment 0, 1, 2)
-    - Compare rules across segments to answer:
-      "How do product associations differ across customer segments?"
+  Final Deliverables Verified:
+    - Cleaned Datasets & RFM Features (Phase 1)
+    - Global Association Rules (Phase 2)
+    - K-Prototypes Customer Segments (Phase 3)
+    - Segment-Specific ARM & Strategic Insights (Phase 4)
 """)
 
 print("=" * 72 + "\n")

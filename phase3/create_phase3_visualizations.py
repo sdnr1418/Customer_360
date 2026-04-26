@@ -14,11 +14,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 
+from pathlib import Path
+
 warnings.filterwarnings('ignore')
 
 # Set plotting style for publication quality
 plt.style.use('seaborn-v0_8-darkgrid')
 sns.set_palette("husl")
+
+# Setup output directory
+VIZ_DIR = Path(__file__).resolve().parent / 'visualizations'
+VIZ_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def load_clustering_results(k_value=3):
@@ -97,7 +103,10 @@ def create_visualizations(data):
     labels = data['labels']
     k_value = data['k_value']
     metrics = data['metrics']
-    segment_profiles = data['profiles']
+    segment_profiles = data['profiles'].copy()
+    
+    segment_names = {0: "Low-Value", 1: "High-Value", 2: "Recent-Active"}
+    segment_profiles['segment_name'] = segment_profiles['segment'].map(segment_names)
     
     colors = sns.color_palette("husl", k_value)
     
@@ -109,7 +118,7 @@ def create_visualizations(data):
     
     sizes = {int(k): int(v) for k, v in metrics['cluster_sizes'].items()}
     
-    labels_pie = [f"Segment {i}\n{sizes[i]:,} customers\n({sizes[i]/sum(sizes.values())*100:.1f}%)" 
+    labels_pie = [f"{segment_names.get(i, f'Segment {i}')}\n{sizes[i]:,} customers\n({sizes[i]/sum(sizes.values())*100:.1f}%)" 
                   for i in range(k_value)]
     ax1.pie(sizes.values(), labels=labels_pie, autopct='%1.1f%%', colors=colors, startangle=90)
     ax1.set_title(f'Segment Distribution (K={k_value})', fontsize=12, fontweight='bold')
@@ -124,8 +133,8 @@ def create_visualizations(data):
         ax2.text(i, v + 1000, f'{v:,}', ha='center', fontweight='bold')
     
     plt.tight_layout()
-    plt.savefig('visualizations/segment_distribution_k3.png', dpi=300, bbox_inches='tight')
-    print("[OK] Saved: visualizations/segment_distribution_k3.png")
+    plt.savefig(VIZ_DIR / 'segment_distribution_k3.png', dpi=300, bbox_inches='tight')
+    print(f"[OK] Saved: {VIZ_DIR / 'segment_distribution_k3.png'}")
     plt.close()
     
     # ========================================================================
@@ -136,50 +145,50 @@ def create_visualizations(data):
     fig.suptitle(f'Segment Characteristics Comparison (K={k_value})', fontsize=14, fontweight='bold')
     
     # Panel 1: Spending
-    axes[0, 0].bar(segment_profiles['segment'], segment_profiles['avg_spending'], 
+    axes[0, 0].bar(segment_profiles['segment_name'], segment_profiles['avg_spending'], 
                    color=colors, alpha=0.7, edgecolor='black', linewidth=2)
     axes[0, 0].set_ylabel('Average Spending ($)', fontweight='bold')
     axes[0, 0].set_title('Average Spending per Segment')
     axes[0, 0].set_xlabel('Segment')
     
     # Panel 2: High-value percentage
-    axes[0, 1].bar(segment_profiles['segment'], segment_profiles['pct_high_value'], 
+    axes[0, 1].bar(segment_profiles['segment_name'], segment_profiles['pct_high_value'], 
                    color=colors, alpha=0.7, edgecolor='black', linewidth=2)
     axes[0, 1].set_ylabel('Percentage (%)', fontweight='bold')
     axes[0, 1].set_title('High-Value Customers (%)')
     axes[0, 1].set_xlabel('Segment')
     
     # Panel 3: Average orders
-    axes[0, 2].bar(segment_profiles['segment'], segment_profiles['avg_orders'], 
+    axes[0, 2].bar(segment_profiles['segment_name'], segment_profiles['avg_orders'], 
                    color=colors, alpha=0.7, edgecolor='black', linewidth=2)
     axes[0, 2].set_ylabel('Average Orders', fontweight='bold')
     axes[0, 2].set_title('Average Orders per Segment')
     axes[0, 2].set_xlabel('Segment')
     
     # Panel 4: Repeat customer percentage
-    axes[1, 0].bar(segment_profiles['segment'], segment_profiles['pct_repeat'], 
+    axes[1, 0].bar(segment_profiles['segment_name'], segment_profiles['pct_repeat'], 
                    color=colors, alpha=0.7, edgecolor='black', linewidth=2)
     axes[1, 0].set_ylabel('Percentage (%)', fontweight='bold')
     axes[1, 0].set_title('Repeat Customers (%)')
     axes[1, 0].set_xlabel('Segment')
     
     # Panel 5: São Paulo percentage
-    axes[1, 1].bar(segment_profiles['segment'], segment_profiles['pct_sp'], 
+    axes[1, 1].bar(segment_profiles['segment_name'], segment_profiles['pct_sp'], 
                    color=colors, alpha=0.7, edgecolor='black', linewidth=2)
     axes[1, 1].set_ylabel('Percentage (%)', fontweight='bold')
     axes[1, 1].set_title('São Paulo Customers (%)')
     axes[1, 1].set_xlabel('Segment')
     
     # Panel 6: Recency
-    axes[1, 2].bar(segment_profiles['segment'], segment_profiles['avg_recency'], 
+    axes[1, 2].bar(segment_profiles['segment_name'], segment_profiles['avg_recency'], 
                    color=colors, alpha=0.7, edgecolor='black', linewidth=2)
     axes[1, 2].set_ylabel('Average Recency (days)', fontweight='bold')
     axes[1, 2].set_title('Average Recency per Segment')
     axes[1, 2].set_xlabel('Segment')
     
     plt.tight_layout()
-    plt.savefig('visualizations/segment_profiles_k3.png', dpi=300, bbox_inches='tight')
-    print("[OK] Saved: visualizations/segment_profiles_k3.png")
+    plt.savefig(VIZ_DIR / 'segment_profiles_k3.png', dpi=300, bbox_inches='tight')
+    print(f"[OK] Saved: {VIZ_DIR / 'segment_profiles_k3.png'}")
     plt.close()
     
     # ========================================================================
@@ -232,8 +241,8 @@ def create_visualizations(data):
     axes[1, 1].legend(loc='lower right', fontsize=9)
     
     plt.tight_layout()
-    plt.savefig('visualizations/evaluation_metrics_k3.png', dpi=300, bbox_inches='tight')
-    print("[OK] Saved: visualizations/evaluation_metrics_k3.png")
+    plt.savefig(VIZ_DIR / 'evaluation_metrics_k3.png', dpi=300, bbox_inches='tight')
+    print(f"[OK] Saved: {VIZ_DIR / 'evaluation_metrics_k3.png'}")
     plt.close()
     
     # ========================================================================
@@ -244,7 +253,7 @@ def create_visualizations(data):
     
     # Box plot
     segment_spending = [df_vis[df_vis['segment'] == i]['monetary'].values for i in range(k_value)]
-    bp = ax1.boxplot(segment_spending, labels=[f'Segment {i}' for i in range(k_value)],
+    bp = ax1.boxplot(segment_spending, labels=[segment_names.get(i, f'Segment {i}') for i in range(k_value)],
                       patch_artist=True, widths=0.6)
     for patch, color in zip(bp['boxes'], colors):
         patch.set_facecolor(color)
@@ -258,7 +267,7 @@ def create_visualizations(data):
     segment_labels_violin = []
     for seg in range(k_value):
         data_for_violin.extend(df_vis[df_vis['segment'] == seg]['monetary'].values)
-        segment_labels_violin.extend([f'Segment {seg}'] * len(df_vis[df_vis['segment'] == seg]))
+        segment_labels_violin.extend([segment_names.get(seg, f'Segment {seg}')] * len(df_vis[df_vis['segment'] == seg]))
     
     violin_df = pd.DataFrame({'Spending': data_for_violin, 'Segment': segment_labels_violin})
     sns.violinplot(data=violin_df, x='Segment', y='Spending', ax=ax2, palette=colors)
@@ -267,8 +276,8 @@ def create_visualizations(data):
     ax2.grid(True, alpha=0.3, axis='y')
     
     plt.tight_layout()
-    plt.savefig('visualizations/spending_distribution_k3.png', dpi=300, bbox_inches='tight')
-    print("[OK] Saved: visualizations/spending_distribution_k3.png")
+    plt.savefig(VIZ_DIR / 'spending_distribution_k3.png', dpi=300, bbox_inches='tight')
+    print(f"[OK] Saved: {VIZ_DIR / 'spending_distribution_k3.png'}")
     plt.close()
     
     print("\n[OK] All visualizations created successfully!")

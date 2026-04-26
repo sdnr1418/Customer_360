@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 RUN_PROJECT_COMPLETE.py
 ============================================================================
@@ -10,7 +8,7 @@ Phases:
   Phase 1 -- Data Preprocessing & EDA         (outputs in data/)
   Phase 2 -- Association Rule Mining           (outputs in phase2/new_implementation/outputs/)
   Phase 3 -- Customer Segmentation             (outputs in data/ + phase3/visualizations/)
-  Phase 4 -- Integration (coming next)
+  Phase 4 -- Integration & Insights           (outputs in phase4/outputs/ + PHASE_4_INSIGHTS.md)
 
 Run with:
     python RUN_PROJECT_COMPLETE.py
@@ -36,6 +34,8 @@ LOGS_DIR     = PROJECT_ROOT / "logs"
 P2_CROSS = PHASE2_DIR / "new_implementation" / "outputs" / "cross_category"
 P2_INTRA = PHASE2_DIR / "new_implementation" / "outputs" / "intra_category"
 P3_VIZ   = PHASE3_DIR / "visualizations"
+PHASE4_DIR = PROJECT_ROOT / "phase4"
+P4_OUTPUTS = PHASE4_DIR / "outputs"
 
 # ---------------------------------------------------------------------------
 # HELPERS
@@ -271,6 +271,47 @@ else:
     warn("phase3/visualizations/ not found")
 
 # ===========================================================================
+# STEP 5: PHASE 4 -- INTEGRATION & SEGMENTED ARM
+# ===========================================================================
+
+section("STEP 5: PHASE 4 -- INTEGRATION & INSIGHTS")
+
+print("  Segment-Specific Rules:")
+p4_rules = {
+    "segment_0_rules.csv": "Low-Value / Impulse Shopper Rules",
+    "segment_1_rules.csv": "High-Value / Project Planner Rules",
+    "segment_2_rules.csv": "Recent-Active / Household Manager Rules",
+}
+
+for fname, desc in p4_rules.items():
+    fpath = P4_OUTPUTS / fname
+    if fpath.exists():
+        try:
+            df = pd.read_csv(fpath)
+            ok("{} -- {}".format(fname, desc), "({} rules)".format(len(df)))
+        except Exception as e:
+            warn(fname, str(e))
+    else:
+        fail(fname, "(NOT FOUND)")
+
+print("\n  Phase 4 Visualizations:")
+p4_viz_dir = P4_OUTPUTS / "visualizations"
+if p4_viz_dir.exists():
+    pngs = sorted(p4_viz_dir.glob("*.png"))
+    ok("Comparative charts", "({} PNG files)".format(len(pngs)))
+    for f in pngs:
+        print("       - {} ({:.0f} KB)".format(f.name, f.stat().st_size / 1024))
+else:
+    warn("phase4/outputs/visualizations/ not found")
+
+print("\n  Strategic Documentation:")
+insights_path = PHASE4_DIR / "PHASE_4_INSIGHTS.md"
+if insights_path.exists():
+    ok("PHASE_4_INSIGHTS.md", "Found strategic persona report")
+else:
+    fail("PHASE_4_INSIGHTS.md", "(MISSING)")
+
+# ===========================================================================
 # FINAL SUMMARY
 # ===========================================================================
 
@@ -282,27 +323,23 @@ print("""
   Phase 1 -- Data Preprocessing & EDA       [COMPLETE]
   Phase 2 -- Association Rule Mining        [COMPLETE]
   Phase 3 -- Customer Segmentation          [COMPLETE]
-  Phase 4 -- Integration & Insights         [PENDING]
+  Phase 4 -- Integration & Insights         [COMPLETE]
 
   DELIVERABLE LOCATIONS
   ---------------------
   Phase 1 data:          data/
   Phase 2 rules:         phase2/new_implementation/outputs/cross_category/
-  Phase 2 charts:        phase2/new_implementation/outputs/cross_category/visualizations/
   Phase 3 segments:      data/customer_segments_k3.csv
-  Phase 3 metrics:       data/clustering_metrics_k3.json
-  Phase 3 charts:        phase3/visualizations/
+  Phase 4 segmented rules: phase4/outputs/
+  Phase 4 comparison:    phase4/outputs/visualizations/
+  Strategic Report:      phase4/PHASE_4_INSIGHTS.md
   Documentation:         docs/
 
-  NEXT STEPS -- Phase 4
-  ----------------------
-  1. Join customer_segments_k3.csv with master_cleaned.csv
-  2. Filter transactions per segment (Segment 0, 1, 2)
-  3. Run Apriori / FP-Growth independently per segment
-  4. Compare rules across segments
-  5. Answer: "How do product associations differ across customer segments?"
-
-  TIP: Run VALIDATE_ALL_PHASES.py for a detailed pre-Phase-4 integrity check.
+  CONCLUSION
+  ----------
+  The Customer 360 project is now technically complete. We have successfully 
+  moved from raw e-commerce data to distinct customer personas with 
+  segment-specific cross-selling strategies.
 """)
 
 print("=" * 90 + "\n")
