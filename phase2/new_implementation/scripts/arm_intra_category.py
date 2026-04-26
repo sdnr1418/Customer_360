@@ -249,18 +249,18 @@ def save_visualizations(output_rules):
     top_rules = output_rules.head(15).copy()
     top_rules['rule'] = top_rules['antecedents'] + ' -> ' + top_rules['consequents']
 
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(14, 9))
     sns.barplot(
         data=top_rules.iloc[::-1],
         x='lift',
         y='rule',
         hue='lift',
-        palette='Oranges_r',
+        palette='viridis',
         legend=False
     )
     plt.xlabel('Lift')
     plt.ylabel('Association Rule')
-    plt.title('Top Intra-Category Product Rules by Lift')
+    plt.title('Top Intra-Category Product Rules by Lift', pad=20)
     plt.tight_layout()
     plt.savefig(VIZ_DIR / '01_top_rules_by_lift.png', dpi=300)
     plt.close()
@@ -287,14 +287,15 @@ def save_visualizations(output_rules):
 
     # 3) Interestingness profile heatmap
     top_heat = output_rules.head(12).copy()
-    top_heat['rule'] = top_heat['antecedents'] + ' -> ' + top_heat['consequents']
+    # Truncate rule names for better display
+    top_heat['rule'] = (top_heat['antecedents'] + ' -> ' + top_heat['consequents']).apply(lambda x: x[:45] + '...' if len(x) > 45 else x)
     metric_cols = ['support', 'confidence', 'lift', 'cosine', 'kulczynski', 'all_confidence', 'max_confidence', 'imbalance_ratio']
     heat_df = top_heat.set_index('rule')[metric_cols]
-    plt.figure(figsize=(12, 8))
-    sns.heatmap(heat_df, cmap='rocket_r', annot=True, fmt='.3f', cbar_kws={'label': 'Metric Value'})
-    plt.title('Interestingness Metrics for Intra-Category Rules')
+    plt.figure(figsize=(15, 10))
+    sns.heatmap(heat_df, cmap='YlGnBu', annot=True, fmt='.3f', annot_kws={"size": 9}, cbar_kws={'label': 'Metric Value'})
+    plt.title('Interestingness Metrics for Intra-Category Rules', pad=20)
     plt.xlabel('Metrics')
-    plt.ylabel('Rules')
+    plt.ylabel('Rules (Truncated)')
     plt.tight_layout()
     plt.savefig(VIZ_DIR / '03_interestingness_heatmap.png', dpi=300)
     plt.close()

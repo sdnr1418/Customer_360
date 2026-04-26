@@ -1,5 +1,3 @@
-![Project Banner](docs/assets/banner.png)
-
 # Data Mining Project: Customer 360 — Olist E-Commerce Analysis
 
 **Status:** Phase 1 ✅ | Phase 2 ✅ | Phase 3 ✅ | Phase 4 ✅  
