@@ -277,10 +277,16 @@ def save_visualizations(output_rules):
     metric_cols = ['support', 'confidence', 'lift', 'cosine', 'kulczynski', 'all_confidence', 'max_confidence', 'imbalance_ratio']
     heat_df = top_heat.set_index('rule')[metric_cols]
     plt.figure(figsize=(15, 10))
-    sns.heatmap(heat_df, cmap='YlGnBu', annot=True, fmt='.3f', annot_kws={"size": 9}, cbar_kws={'label': 'Metric Value'})
+    # Normalize each column for color mapping only
+    col_min = heat_df.min()
+    col_max = heat_df.max()
+    heat_df_norm = (heat_df - col_min) / (col_max - col_min)
+    heat_df_norm = heat_df_norm.fillna(0.5)  # Handle columns with same values
+    
+    sns.heatmap(heat_df_norm, cmap='YlGnBu', annot=heat_df, fmt='.3f', annot_kws={"size": 9}, cbar_kws={'label': 'Relative Strength'})
     plt.title('Interestingness Metrics for Top Cross-Category Rules', pad=20)
     plt.xlabel('Metrics')
-    plt.ylabel('Rules (Truncated)')
+    plt.ylabel('Rules')
     plt.tight_layout()
     plt.savefig(VIZ_DIR / '03_interestingness_heatmap.png', dpi=300)
     plt.close()

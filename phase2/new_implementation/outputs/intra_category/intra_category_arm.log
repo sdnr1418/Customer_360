@@ -433,3 +433,90 @@ Rules saved to: C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase2\new_implementa
 2026-04-26 16:58:03,583 - INFO - INTRA-CATEGORY ARM COMPLETE
 2026-04-26 16:58:03,583 - INFO - ======================================================================
 
+2026-04-26 17:04:05,840 - INFO - 
+======================================================================
+2026-04-26 17:04:05,840 - INFO - PHASE 2: INTRA-CATEGORY ASSOCIATION RULE MINING
+2026-04-26 17:04:05,840 - INFO - ======================================================================
+
+2026-04-26 17:04:05,840 - INFO - ======================================================================
+2026-04-26 17:04:05,840 - INFO - INTRA-CATEGORY ARM: DATA PREPARATION
+2026-04-26 17:04:05,841 - INFO - ======================================================================
+2026-04-26 17:04:06,133 - INFO - 
+Orders with 2+ items, 1 category: 2,417
+2026-04-26 17:04:06,133 - INFO - Total items in these orders: 5,229
+2026-04-26 17:04:06,133 - INFO - Avg items per order: 2.16
+2026-04-26 17:04:06,135 - INFO - Unique products involved: 3,677
+2026-04-26 17:04:06,172 - INFO - 
+Baskets created: 2,417
+2026-04-26 17:04:06,174 - INFO - Avg unique products per basket: 2.16
+2026-04-26 17:04:06,179 - INFO - Matrix shape: (2417, 3677) (3677 unique products)
+2026-04-26 17:04:06,193 - INFO - Sparsity: 99.9%
+2026-04-26 17:04:06,193 - INFO - 
+Note: High sparsity is expected with 3,677 products
+2026-04-26 17:04:06,193 - INFO - [OK] Data preparation complete
+
+2026-04-26 17:04:06,195 - INFO - ======================================================================
+2026-04-26 17:04:06,195 - INFO - APRIORI ALGORITHM
+2026-04-26 17:04:06,195 - INFO - ======================================================================
+2026-04-26 17:04:06,195 - INFO - 
+Support threshold: 1.0%
+2026-04-26 17:04:06,211 - INFO - Frequent itemsets: 3
+2026-04-26 17:04:06,214 - INFO - Association rules (confidence >= 30%): 2
+2026-04-26 17:04:06,217 - INFO -   Avg support: 0.0141
+2026-04-26 17:04:06,217 - INFO -   Avg confidence: 80.15%
+2026-04-26 17:04:06,217 - INFO -   Avg lift: 45.05
+2026-04-26 17:04:06,217 - INFO -   Max lift: 45.05
+2026-04-26 17:04:06,217 - INFO -   Avg cosine: 0.7961
+2026-04-26 17:04:06,217 - INFO -   Avg kulczynski: 0.8015
+2026-04-26 17:04:06,217 - INFO -   Avg all_confidence: 0.7083
+2026-04-26 17:04:06,217 - INFO -   Avg max_confidence: 0.8947
+2026-04-26 17:04:06,217 - INFO -   Avg imbalance_ratio: 0.1923
+2026-04-26 17:04:06,217 - INFO - 
+  These products co-occur frequently enough to be:
+2026-04-26 17:04:06,217 - INFO -   - Recommended together
+2026-04-26 17:04:06,217 - INFO -   - Pre-bundled
+2026-04-26 17:04:06,217 - INFO -   - Cross-merchandised in store
+2026-04-26 17:04:06,217 - INFO - [OK] Apriori complete
+
+2026-04-26 17:04:06,217 - INFO - ======================================================================
+2026-04-26 17:04:06,217 - INFO - FP-GROWTH ALGORITHM
+2026-04-26 17:04:06,217 - INFO - ======================================================================
+2026-04-26 17:04:06,217 - INFO - 
+Support threshold: 1.0%
+2026-04-26 17:04:06,233 - INFO - Frequent itemsets: 3
+2026-04-26 17:04:06,235 - INFO - Association rules (confidence >= 30%): 2
+2026-04-26 17:04:06,237 - INFO -   Avg support: 0.0141
+2026-04-26 17:04:06,237 - INFO -   Avg confidence: 80.15%
+2026-04-26 17:04:06,237 - INFO -   Avg lift: 45.05
+2026-04-26 17:04:06,237 - INFO -   Max lift: 45.05
+2026-04-26 17:04:06,237 - INFO -   Avg cosine: 0.7961
+2026-04-26 17:04:06,237 - INFO -   Avg kulczynski: 0.8015
+2026-04-26 17:04:06,237 - INFO -   Avg all_confidence: 0.7083
+2026-04-26 17:04:06,237 - INFO -   Avg max_confidence: 0.8947
+2026-04-26 17:04:06,237 - INFO -   Avg imbalance_ratio: 0.1923
+2026-04-26 17:04:06,237 - INFO - [OK] FP-Growth complete
+
+2026-04-26 17:04:06,237 - INFO - ======================================================================
+2026-04-26 17:04:06,237 - INFO - ALGORITHM CONVERGENCE VALIDATION
+2026-04-26 17:04:06,237 - INFO - ======================================================================
+2026-04-26 17:04:06,238 - INFO - 
+Apriori rules: 2
+2026-04-26 17:04:06,238 - INFO - FP-Growth rules: 2
+2026-04-26 17:04:06,238 - INFO - [OK] 100% CONVERGENCE: Both algorithms produced identical rule counts
+2026-04-26 17:04:06,238 - INFO - 
+Convergence status: PASS
+
+2026-04-26 17:04:06,238 - INFO - ======================================================================
+2026-04-26 17:04:06,238 - INFO - SAVING RESULTS
+2026-04-26 17:04:06,238 - INFO - ======================================================================
+2026-04-26 17:04:06,242 - INFO - 
+Rules saved to: C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase2\new_implementation\outputs\intra_category\intra_category_rules.csv
+2026-04-26 17:04:06,247 - INFO - Exports saved to: C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase2\new_implementation\outputs\intra_category\exports
+2026-04-26 17:04:06,248 - INFO - Summary saved to: C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase2\new_implementation\outputs\intra_category\intra_category_summary.txt
+2026-04-26 17:04:07,536 - INFO - Visualizations saved to: C:\Users\sdnr1\OneDrive\Desktop\DM_project\phase2\new_implementation\outputs\intra_category\visualizations
+2026-04-26 17:04:07,537 - INFO - [OK] Results saved
+
+2026-04-26 17:04:07,537 - INFO - ======================================================================
+2026-04-26 17:04:07,537 - INFO - INTRA-CATEGORY ARM COMPLETE
+2026-04-26 17:04:07,537 - INFO - ======================================================================
+
